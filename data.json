@@ -445,21 +445,22 @@
       "notes": ""
     },
     {
-      "id": 25,
       "title": "저성과자 교육",
       "client": "현대자동차",
       "category": "제안",
       "tags": [
         "리더십"
       ],
-      "status": "수주",
+      "status": "완료",
       "priority": 1,
       "deadline": "2026-01-20",
-      "weeklyUpdate": false,
       "owner": null,
+      "weeklyUpdate": false,
       "progress": "수주 완료",
       "nextPlan": "",
-      "notes": "https://ihunet.atlassian.net/browse/LZIJ-1454"
+      "notes": "https://ihunet.atlassian.net/browse/LZIJ-1454",
+      "weeklyUpdates": [],
+      "id": 25
     },
     {
       "id": 26,
