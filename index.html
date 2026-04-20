@@ -4,51 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>업무 현황 관리</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f7fa;
+    --bg: #eef2f7;
     --surface: #ffffff;
-    --border: #e2e8f0;
-    --text: #1a202c;
-    --text-muted: #718096;
-    --primary: #4f46e5;
-    --primary-light: #eef2ff;
+    --border: #d8e2ed;
+    --text: #182235;
+    --text-muted: #5c6f87;
+    --primary: #1e3a5c;
+    --primary-light: #deeaf7;
+    --primary-hover: #15304f;
 
-    --status-대기: #94a3b8;
-    --status-진행중: #3b82f6;
-    --status-수주: #10b981;
-    --status-수행: #f59e0b;
-    --status-완료: #6b7280;
-    --status-실주: #ef4444;
-    --status-보류: #cbd5e1;
+    --status-대기: #8496ab;
+    --status-진행중: #2563eb;
+    --status-수주: #059669;
+    --status-수행: #d97706;
+    --status-완료: #475569;
+    --status-실주: #dc2626;
+    --status-보류: #a8b8c8;
 
-    --p1: #ef4444;
-    --p2: #f59e0b;
-    --p3: #84cc16;
+    --p1: #dc2626;
+    --p2: #d97706;
+    --p3: #65a30d;
+
+    --shadow-sm: 0 1px 3px rgba(30,58,92,0.06), 0 1px 2px rgba(30,58,92,0.04);
+    --shadow-md: 0 4px 12px rgba(30,58,92,0.08), 0 2px 4px rgba(30,58,92,0.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 14px;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* ── Header ── */
   .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 24px;
+    background: var(--primary);
+    border-bottom: none;
+    padding: 18px 28px;
     display: flex;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
   }
-  .header h1 { font-size: 18px; font-weight: 700; }
-  .header .updated { color: var(--text-muted); font-size: 12px; }
+  .header h1 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+  }
+  .header .updated { color: rgba(255,255,255,0.55); font-size: 12px; margin-top: 2px; }
   .header-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
   .unsaved-badge {
     font-size: 11px;
@@ -58,28 +69,13 @@
     border-radius: 6px;
     padding: 4px 10px;
     display: none;
+    font-weight: 600;
   }
   .unsaved-badge.show { display: block; }
 
-  /* ── Charts row ── */
-  .charts-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    padding: 16px 24px 0;
-  }
-  .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .chart-card h3 { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .chart-card canvas { max-height: 160px; }
-
   /* ── Controls ── */
   .controls {
-    padding: 16px 24px;
+    padding: 20px 28px 14px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -189,7 +185,7 @@
   }
 
   table { width: 100%; border-collapse: collapse; }
-  thead tr { background: #f8fafc; }
+  thead tr { background: #f4f8fc; }
   th {
     padding: 10px 12px;
     text-align: left;
@@ -213,7 +209,7 @@
     vertical-align: top;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #f8fafc; }
+  tr:hover td { background: var(--primary-light); transition: background 0.1s; }
 
   .col-title { min-width: 160px; max-width: 200px; }
   .col-client { min-width: 100px; white-space: nowrap; }
@@ -376,15 +372,18 @@
   .form-group textarea:focus { border-color: var(--primary); }
   .form-group textarea { resize: vertical; min-height: 80px; }
   .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
-  .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; }
+  .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: opacity 0.15s, background 0.15s; }
+  .btn:hover { opacity: 0.88; }
   .btn-cancel { background: var(--bg); color: var(--text-muted); }
   .btn-save { background: var(--primary); color: white; }
   .btn-delete { background: #fee2e2; color: #991b1b; margin-right: auto; }
 
   @media (max-width: 768px) {
-    .charts-row { grid-template-columns: 1fr; }
     .col-category, .col-priority, .col-update { display: none; }
     .header-right { display: none; }
+    .controls { padding: 16px 16px 12px; }
+    .table-wrap { padding: 0 12px 20px; }
+    .header { padding: 14px 16px; }
   }
 </style>
 </head>
@@ -402,20 +401,6 @@
   </div>
 </div>
 
-<div class="charts-row">
-  <div class="chart-card">
-    <h3>상태별 현황</h3>
-    <canvas id="chart-status"></canvas>
-  </div>
-  <div class="chart-card">
-    <h3>구분별 현황</h3>
-    <canvas id="chart-category"></canvas>
-  </div>
-  <div class="chart-card">
-    <h3>우선순위별 현황</h3>
-    <canvas id="chart-priority"></canvas>
-  </div>
-</div>
 
 <div class="controls">
   <!-- 퀵필터 -->
@@ -502,7 +487,7 @@ let currentCat = '전체';
 let activeQuick = new Set();
 let activeTags = new Set();
 let sortKey = 'deadline';
-let sortDir = 1;
+let sortDir = -1;
 let editingId = null;
 
 const TODAY = new Date();
@@ -525,7 +510,6 @@ async function loadData() {
   }
   buildTagChips();
   updateBadges();
-  renderCharts();
   render();
 }
 
@@ -737,44 +721,6 @@ function render() {
   document.getElementById('table-body').innerHTML = html;
 }
 
-/* ── Charts ── */
-function renderCharts() {
-  const projects = DATA.projects;
-
-  // Status chart
-  const statuses = ['진행중','수행','수주','완료','대기','실주','보류'];
-  const statusColors = ['#3b82f6','#f59e0b','#10b981','#6b7280','#94a3b8','#ef4444','#cbd5e1'];
-  const statusCounts = statuses.map(s => projects.filter(p => p.status === s).length);
-  new Chart(document.getElementById('chart-status'), {
-    type: 'doughnut',
-    data: { labels: statuses, datasets: [{ data: statusCounts, backgroundColor: statusColors, borderWidth: 2 }] },
-    options: { plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } } }, cutout: '60%', maintainAspectRatio: true }
-  });
-
-  // Category chart
-  const cats = ['제안','수행','R&D','기타'];
-  const catColors = ['#8b5cf6','#ec4899','#0ea5e9','#22c55e'];
-  const catCounts = cats.map(c => projects.filter(p => p.category === c).length);
-  new Chart(document.getElementById('chart-category'), {
-    type: 'bar',
-    data: { labels: cats, datasets: [{ data: catCounts, backgroundColor: catColors, borderRadius: 6 }] },
-    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } } }, x: { ticks: { font: { size: 11 } } } }, maintainAspectRatio: true }
-  });
-
-  // Priority chart
-  const prioLabels = ['1순위','2순위','3순위','미지정'];
-  const prioColors = ['#ef4444','#f59e0b','#84cc16','#e2e8f0'];
-  const prioCounts = [
-    projects.filter(p => p.priority === 1).length,
-    projects.filter(p => p.priority === 2).length,
-    projects.filter(p => p.priority === 3).length,
-    projects.filter(p => !p.priority).length
-  ];
-  new Chart(document.getElementById('chart-priority'), {
-    type: 'doughnut',
-    data: { labels: prioLabels, datasets: [{ data: prioCounts, backgroundColor: prioColors, borderWidth: 2 }] },
-    options: { plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } } }, cutout: '60%', maintainAspectRatio: true }
-  });
 }
 
 /* ── Modal ── */
