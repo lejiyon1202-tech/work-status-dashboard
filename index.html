@@ -380,6 +380,13 @@
   .btn-delete { background: #fee2e2; color: #991b1b; margin-right: auto; }
   .btn-export { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
+  /* ── Row Action Buttons ── */
+  .col-action { width: 72px; text-align: center; }
+  .btn-row-edit, .btn-row-del { border: none; background: none; cursor: pointer; border-radius: 6px; padding: 4px 6px; font-size: 14px; transition: background 0.12s; line-height: 1; }
+  .btn-row-edit:hover { background: var(--primary-light); }
+  .btn-row-del:hover { background: #fee2e2; }
+  .week-item-actions { display: flex; gap: 4px; justify-content: flex-end; align-items: flex-start; }
+
   @media (max-width: 768px) {
     .col-category, .col-priority, .col-update { display: none; }
     .header-right { display: none; }
@@ -746,6 +753,10 @@ function renderRow(p) {
       ${p.nextPlan ? `<div class="next-plan">→ ${escHtml(p.nextPlan)}</div>` : ''}
       ${p.notes ? `<div class="notes-text">${makeLink(escHtml(p.notes))}</div>` : ''}
     </td>
+    <td class="col-action" onclick="event.stopPropagation()">
+      <button class="btn-row-edit" title="수정" onclick="openEditModal(${p.id})">✏️</button>
+      <button class="btn-row-del" title="삭제" onclick="deleteProjectById(${p.id})">🗑️</button>
+    </td>
   </tr>`;
 }
 
@@ -764,6 +775,7 @@ function render() {
     <th class="col-deadline ${sortKey==='deadline'?'sorted':''}" onclick="setSort('deadline')">기한 <span class="sort-arrow">↕</span></th>
     <th class="col-update" title="금주 업데이트">📌</th>
     <th class="col-progress">진행현황 / 향후계획</th>
+    <th class="col-action"></th>
   </tr></thead>`;
 
   if (list.length === 0) {
@@ -859,14 +871,18 @@ function renderWeeklyView() {
         <span class="week-toggle">▾</span>
       </div>
       <div class="week-body">
-        <div style="display:grid;grid-template-columns:200px 110px 90px 1fr;gap:12px;padding:6px 16px;background:var(--bg);font-size:11px;font-weight:700;color:var(--text-muted);">
-          <span>프로젝트</span><span>고객사</span><span>상태</span><span>업데이트 내용</span>
+        <div style="display:grid;grid-template-columns:200px 110px 90px 1fr 64px;gap:12px;padding:6px 16px;background:var(--bg);font-size:11px;font-weight:700;color:var(--text-muted);">
+          <span>프로젝트</span><span>고객사</span><span>상태</span><span>업데이트 내용</span><span></span>
         </div>
-        ${items.map(({p, note}) => `<div class="week-item" onclick="openEditModal(${p.id})">
+        ${items.map(({p, note}) => `<div class="week-item" style="grid-template-columns:200px 110px 90px 1fr 64px;">
           <div><div class="week-item-title">${escHtml(p.title)}</div></div>
           <div class="week-item-client">${escHtml(p.client||'—')}</div>
           <div>${statusBadge(p.status)}</div>
           <div class="week-item-note">${escHtml(note||'—')}</div>
+          <div class="week-item-actions" onclick="event.stopPropagation()">
+            <button class="btn-row-edit" title="수정" onclick="openEditModal(${p.id})">✏️</button>
+            <button class="btn-row-del" title="삭제" onclick="deleteProjectById(${p.id})">🗑️</button>
+          </div>
         </div>`).join('')}
       </div>
     </div>`;
@@ -1014,6 +1030,16 @@ function deleteProject() {
   updateBadges();
   render();
   closeModal();
+}
+
+function deleteProjectById(id) {
+  const p = DATA.projects.find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`"${p.title}" 프로젝트를 삭제하시겠습니까?`)) return;
+  DATA.projects = DATA.projects.filter(x => x.id !== id);
+  markUnsaved();
+  updateBadges();
+  render();
 }
 
 let hasUnsaved = false;
