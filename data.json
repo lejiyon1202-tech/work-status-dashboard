@@ -1,13 +1,32 @@
 {
   "lastUpdated": "2026-04-20",
-  "tagOptions": ["AI롤플레잉", "롤플레잉개발", "승진자교육", "신임팀장", "리더십", "임원교육", "직무교육", "코칭", "진단", "제안서", "아바타", "AI활용", "위탁운영", "만족도조사", "R&D"],
+  "tagOptions": [
+    "AI롤플레잉",
+    "롤플레잉개발",
+    "승진자교육",
+    "신임팀장",
+    "리더십",
+    "임원교육",
+    "직무교육",
+    "코칭",
+    "진단",
+    "제안서",
+    "아바타",
+    "AI활용",
+    "위탁운영",
+    "만족도조사",
+    "R&D"
+  ],
   "projects": [
     {
       "id": 1,
       "title": "신임팀장 교육",
       "client": "다스",
       "category": "제안",
-      "tags": ["신임팀장", "리더십"],
+      "tags": [
+        "신임팀장",
+        "리더십"
+      ],
       "status": "실주",
       "priority": 1,
       "deadline": "2026-01-19",
@@ -22,7 +41,9 @@
       "title": "승격자 교육",
       "client": "오리온",
       "category": "제안",
-      "tags": ["승진자교육"],
+      "tags": [
+        "승진자교육"
+      ],
       "status": "완료",
       "priority": null,
       "deadline": "2026-02-26",
@@ -37,7 +58,10 @@
       "title": "자기성찰기반 크리티컬씽킹",
       "client": "바카디코리아",
       "category": "수행",
-      "tags": ["코칭", "리더십"],
+      "tags": [
+        "코칭",
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -52,7 +76,10 @@
       "title": "코칭 교육",
       "client": "데상트 코리아",
       "category": "수행",
-      "tags": ["코칭", "리더십"],
+      "tags": [
+        "코칭",
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -67,7 +94,10 @@
       "title": "아바타 업체 검토",
       "client": "딥브레인AI",
       "category": "R&D",
-      "tags": ["아바타", "AI롤플레잉"],
+      "tags": [
+        "아바타",
+        "AI롤플레잉"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -82,7 +112,9 @@
       "title": "MD 대상 러닝저니",
       "client": "에스와이에스리테일",
       "category": "제안",
-      "tags": ["리더십"],
+      "tags": [
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-03-12",
@@ -97,7 +129,9 @@
       "title": "팀장 리더십",
       "client": "인터코스코리아",
       "category": "제안",
-      "tags": ["리더십"],
+      "tags": [
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -112,7 +146,9 @@
       "title": "승진자 교육",
       "client": "에쓰푸드",
       "category": "제안",
-      "tags": ["승진자교육"],
+      "tags": [
+        "승진자교육"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-03-12",
@@ -127,7 +163,9 @@
       "title": "승진자 교육",
       "client": "쿠팡",
       "category": "제안",
-      "tags": ["승진자교육"],
+      "tags": [
+        "승진자교육"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-03-10",
@@ -142,7 +180,10 @@
       "title": "리더십 교육",
       "client": "코스콤",
       "category": "제안",
-      "tags": ["리더십", "AI활용"],
+      "tags": [
+        "리더십",
+        "AI활용"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-03-09",
@@ -157,7 +198,10 @@
       "title": "AI 롤플레잉 고도화",
       "client": "자체",
       "category": "R&D",
-      "tags": ["AI롤플레잉", "롤플레잉개발"],
+      "tags": [
+        "AI롤플레잉",
+        "롤플레잉개발"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -172,7 +216,10 @@
       "title": "신임 직책장 교육",
       "client": "해성그룹",
       "category": "제안",
-      "tags": ["신임팀장", "리더십"],
+      "tags": [
+        "신임팀장",
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-02-24",
@@ -187,7 +234,9 @@
       "title": "팀장 리더십",
       "client": "아이에스시",
       "category": "제안",
-      "tags": ["리더십"],
+      "tags": [
+        "리더십"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-02-25",
@@ -202,7 +251,10 @@
       "title": "팀장/승진자 교육",
       "client": "삼우그룹",
       "category": "제안",
-      "tags": ["승진자교육", "리더십"],
+      "tags": [
+        "승진자교육",
+        "리더십"
+      ],
       "status": "완료",
       "priority": 1,
       "deadline": "2026-01-19",
@@ -217,7 +269,11 @@
       "title": "신임팀장 + 팀장 리더십",
       "client": "한솔 홀딩스",
       "category": "수행",
-      "tags": ["신임팀장", "리더십", "AI롤플레잉"],
+      "tags": [
+        "신임팀장",
+        "리더십",
+        "AI롤플레잉"
+      ],
       "status": "수행",
       "priority": null,
       "deadline": "2026-05-19",
@@ -232,7 +288,10 @@
       "title": "AI 리더십",
       "client": "GC홀딩스",
       "category": "제안",
-      "tags": ["리더십", "AI활용"],
+      "tags": [
+        "리더십",
+        "AI활용"
+      ],
       "status": "완료",
       "priority": null,
       "deadline": "2026-01-29",
@@ -247,7 +306,9 @@
       "title": "직무재배치 Reskilling Program",
       "client": "삼성 SDI",
       "category": "제안",
-      "tags": ["직무교육"],
+      "tags": [
+        "직무교육"
+      ],
       "status": "완료",
       "priority": null,
       "deadline": "2026-01-28",
@@ -262,7 +323,11 @@
       "title": "2026년 리더십 및 직무교육 위탁운영",
       "client": "중진공",
       "category": "제안",
-      "tags": ["위탁운영", "직무교육", "리더십"],
+      "tags": [
+        "위탁운영",
+        "직무교육",
+        "리더십"
+      ],
       "status": "완료",
       "priority": null,
       "deadline": "2026-02-26",
@@ -277,7 +342,10 @@
       "title": "직무 스킬업 교육",
       "client": "메트라이프",
       "category": "수행",
-      "tags": ["직무교육", "만족도조사"],
+      "tags": [
+        "직무교육",
+        "만족도조사"
+      ],
       "status": "진행중",
       "priority": 2,
       "deadline": "2026-12-31",
@@ -292,7 +360,10 @@
       "title": "일하는 방식 마인드셋 교육",
       "client": "GC 홀딩스",
       "category": "제안",
-      "tags": ["AI활용", "리더십"],
+      "tags": [
+        "AI활용",
+        "리더십"
+      ],
       "status": "완료",
       "priority": 2,
       "deadline": "2026-01-31",
@@ -307,7 +378,10 @@
       "title": "신임 직책자 교육",
       "client": "코웨이",
       "category": "수행",
-      "tags": ["신임팀장", "AI롤플레잉"],
+      "tags": [
+        "신임팀장",
+        "AI롤플레잉"
+      ],
       "status": "완료",
       "priority": null,
       "deadline": "2026-01-30",
@@ -322,7 +396,10 @@
       "title": "임원교육프로그램",
       "client": "우리금융그룹",
       "category": "제안",
-      "tags": ["임원교육", "리더십"],
+      "tags": [
+        "임원교육",
+        "리더십"
+      ],
       "status": "완료",
       "priority": 3,
       "deadline": "2026-01-28",
@@ -337,7 +414,9 @@
       "title": "AI롤플레잉 영상",
       "client": "휴넷 자체",
       "category": "R&D",
-      "tags": ["AI롤플레잉"],
+      "tags": [
+        "AI롤플레잉"
+      ],
       "status": "완료",
       "priority": 3,
       "deadline": "2026-01-26",
@@ -352,7 +431,10 @@
       "title": "신임팀장 교육",
       "client": "신한라이프",
       "category": "수행",
-      "tags": ["신임팀장", "리더십"],
+      "tags": [
+        "신임팀장",
+        "리더십"
+      ],
       "status": "완료",
       "priority": 2,
       "deadline": "2026-01-23",
@@ -367,7 +449,9 @@
       "title": "저성과자 교육",
       "client": "현대자동차",
       "category": "제안",
-      "tags": ["리더십"],
+      "tags": [
+        "리더십"
+      ],
       "status": "수주",
       "priority": 1,
       "deadline": "2026-01-20",
@@ -382,7 +466,9 @@
       "title": "주재원 교육",
       "client": "자체",
       "category": "수행",
-      "tags": ["직무교육"],
+      "tags": [
+        "직무교육"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -397,7 +483,10 @@
       "title": "제안서 에이전트 개발",
       "client": "자체",
       "category": "R&D",
-      "tags": ["제안서", "AI활용"],
+      "tags": [
+        "제안서",
+        "AI활용"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -412,7 +501,10 @@
       "title": "KIST 롤플레잉 개발",
       "client": "KIST",
       "category": "R&D",
-      "tags": ["AI롤플레잉", "롤플레잉개발"],
+      "tags": [
+        "AI롤플레잉",
+        "롤플레잉개발"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "2026-04-29",
@@ -427,7 +519,10 @@
       "title": "리더의 하루 플랫폼",
       "client": "자체",
       "category": "R&D",
-      "tags": ["AI롤플레잉", "진단"],
+      "tags": [
+        "AI롤플레잉",
+        "진단"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
@@ -442,7 +537,10 @@
       "title": "한타 팀장리더십 롤플레잉",
       "client": "한타",
       "category": "R&D",
-      "tags": ["리더십", "롤플레잉개발"],
+      "tags": [
+        "리더십",
+        "롤플레잉개발"
+      ],
       "status": "대기",
       "priority": null,
       "deadline": "",
@@ -457,7 +555,9 @@
       "title": "Claude 사용량 관리",
       "client": "자체",
       "category": "기타",
-      "tags": ["AI활용"],
+      "tags": [
+        "AI활용"
+      ],
       "status": "진행중",
       "priority": null,
       "deadline": "",
