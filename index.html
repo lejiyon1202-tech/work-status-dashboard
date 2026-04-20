@@ -434,7 +434,7 @@
 
   /* ── Row Action Buttons ── */
   .col-action { width: 68px; text-align: right; padding-right: 10px !important; }
-  .btn-row-edit, .btn-row-del { border: none; background: none; cursor: pointer; border-radius: 6px; padding: 4px 6px; font-size: 13px; transition: background 0.12s, opacity 0.12s; line-height: 1; opacity: 0; }
+  .btn-row-edit, .btn-row-del { border: none; background: none; cursor: pointer; border-radius: 6px; padding: 4px 6px; font-size: 13px; transition: background 0.12s, opacity 0.12s; line-height: 1; opacity: 0.45; }
   tbody tr:hover .btn-row-edit,
   tbody tr:hover .btn-row-del { opacity: 1; }
   .btn-row-edit:hover { background: var(--primary-light); }
@@ -654,6 +654,17 @@ const PAT_KEY = 'githubPAT';
 const GH_REPO = 'lejiyon1202-tech/work-status-dashboard';
 const GH_FILE = 'data.json';
 
+function kst() {
+  const d = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const iso = d.toISOString();
+  return {
+    iso,
+    date: iso.slice(0, 10),
+    datetime: iso.slice(0, 16).replace('T', ' '),
+    hhmm: iso.slice(11, 16)
+  };
+}
+
 function saveToLS() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch(e) {}
 }
@@ -687,16 +698,14 @@ async function saveToGitHub(data) {
     const { sha } = await shaRes.json();
 
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-    const now = new Date();
-    const ts = now.toISOString().slice(0,16).replace('T',' ');
+    const t = kst();
     const putRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       method: 'PUT', headers,
-      body: JSON.stringify({ message: `업무현황 업데이트 ${ts}`, content, sha })
+      body: JSON.stringify({ message: `업무현황 업데이트 ${t.datetime} KST`, content, sha })
     });
     if (!putRes.ok) throw new Error('PUT 실패 ' + putRes.status);
 
-    const hhmm = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-    setSyncBadge('ok', `✅ 서버 저장됨 — ${hhmm} (1~2분 후 반영)`);
+    setSyncBadge('ok', `✅ 서버 저장됨 — ${t.hhmm} KST (1~2분 후 반영)`);
     return true;
   } catch(e) {
     console.error('[GitHub 저장 오류]', e);
@@ -739,7 +748,7 @@ function deletePAT() {
   closePATModal();
 }
 
-const TODAY = new Date();
+const TODAY = new Date(Date.now() + 9 * 60 * 60 * 1000);
 TODAY.setHours(0,0,0,0);
 
 function daysDiff(dateStr) {
@@ -1165,7 +1174,7 @@ function saveMemo(week, wid) {
     id: 'wm_' + Date.now(),
     weekOf: week,
     content: ta.value.trim(),
-    createdAt: new Date().toISOString()
+    createdAt: kst().iso
   });
   markUnsaved();
   renderWeeklyView();
@@ -1327,7 +1336,7 @@ function saveProject() {
     DATA.projects.push(obj);
   }
 
-  DATA.lastUpdated = new Date().toISOString().slice(0,10);
+  DATA.lastUpdated = kst().date;
   document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
   markUnsaved();
   updateBadges();
@@ -1368,14 +1377,10 @@ function markUnsaved() {
 }
 
 function exportJSON() {
-  const now = new Date();
-  const ts = now.getFullYear().toString() +
-    String(now.getMonth()+1).padStart(2,'0') +
-    String(now.getDate()).padStart(2,'0') + '-' +
-    String(now.getHours()).padStart(2,'0') +
-    String(now.getMinutes()).padStart(2,'0');
+  const t = kst();
+  const ts = t.date.replace(/-/g,'') + '-' + t.hhmm.replace(':','');
 
-  DATA.lastUpdated = now.toISOString().slice(0,10);
+  DATA.lastUpdated = t.date;
   saveToLS();
   const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
