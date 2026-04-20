@@ -8,29 +8,32 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
 <style>
   :root {
-    --bg: #eef2f7;
-    --surface: #ffffff;
-    --border: #d8e2ed;
-    --text: #182235;
-    --text-muted: #5c6f87;
-    --primary: #1e3a5c;
-    --primary-light: #deeaf7;
-    --primary-hover: #15304f;
+    --bg:           #F5F7FA;
+    --surface:      #FFFFFF;
+    --border:       #E2E8F0;
+    --text:         #1E293B;
+    --text-muted:   #64748B;
+    --text-light:   #94A3B8;
+    --primary:      #0D7A6F;      /* teal — 딥 네이비 완전 탈피 */
+    --primary-light: #EDFAF8;
+    --primary-hover: #0A6560;
+    --header-bg:    #1E293B;      /* slate-900 */
 
-    --status-대기: #8496ab;
-    --status-진행중: #2563eb;
-    --status-수주: #059669;
-    --status-수행: #d97706;
-    --status-완료: #475569;
-    --status-실주: #dc2626;
-    --status-보류: #a8b8c8;
+    --status-대기:  #94A3B8;
+    --status-진행중: #2563EB;
+    --status-수주:  #059669;
+    --status-수행:  #D97706;
+    --status-완료:  #64748B;
+    --status-실주:  #DC2626;
+    --status-보류:  #CBD5E1;
 
-    --p1: #dc2626;
-    --p2: #d97706;
-    --p3: #65a30d;
+    --p1: #DC2626;
+    --p2: #D97706;
+    --p3: #65A30D;
 
-    --shadow-sm: 0 1px 3px rgba(30,58,92,0.06), 0 1px 2px rgba(30,58,92,0.04);
-    --shadow-md: 0 4px 12px rgba(30,58,92,0.08), 0 2px 4px rgba(30,58,92,0.05);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-md: 0 4px 14px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.07);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,22 +48,86 @@
 
   /* ── Header ── */
   .header {
-    background: var(--primary);
+    background: var(--header-bg);
     border-bottom: none;
-    padding: 18px 28px;
+    padding: 14px 28px;
     display: flex;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
   }
   .header h1 {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: -0.02em;
   }
-  .header .updated { color: rgba(255,255,255,0.55); font-size: 12px; margin-top: 2px; }
-  .header-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .header .updated { color: rgba(255,255,255,0.45); font-size: 11px; margin-top: 1px; }
+  .header-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+
+  /* ── Summary Bar ── */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 16px 28px 0;
+  }
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .summary-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+  .summary-card.active { border-color: var(--primary); background: var(--primary-light); }
+  .summary-card .sc-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+  .summary-card .sc-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .summary-card .sc-sub { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+  #sum-urgent .sc-num { color: var(--p2); }
+  #sum-urgent.has-data .sc-num { color: var(--p1); }
+  #sum-active.has-data .sc-num { color: var(--status-진행중); }
+  #sum-p1.has-data .sc-num { color: var(--p1); }
+
+  /* ── Toolbar (필터 1줄) ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px 10px;
+    flex-wrap: wrap;
+  }
+  .toolbar-search {
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.15s;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .toolbar-search:focus { border-color: var(--primary); }
+  .toolbar-search::placeholder { color: var(--text-light); }
+  .toolbar-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+  .toolbar-right { margin-left: auto; }
   .unsaved-badge {
     font-size: 11px;
     color: #92400e;
@@ -73,85 +140,35 @@
   }
   .unsaved-badge.show { display: block; }
 
-  /* ── Controls ── */
-  .controls {
-    padding: 20px 28px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  /* ── Controls (기존 — 숨김 처리, JS 함수 연결 유지용) ── */
+  .controls { display: none; }
+  .quick-filters, .btn-filter, .tag-filters, .tag-chip { display: none; }
 
-  .quick-filters {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .quick-filters label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
-
-  .btn-filter {
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .btn-filter:hover { border-color: var(--primary); color: var(--primary); }
-  .btn-filter.active { background: var(--primary); color: white; border-color: var(--primary); }
-
+  /* ── 카테고리 탭 (툴바 내 인라인 스타일) ── */
   .cat-tabs {
     display: flex;
-    gap: 4px;
-    border-bottom: 2px solid var(--border);
+    gap: 3px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
   }
   .cat-tab {
-    padding: 8px 16px;
+    padding: 6px 13px;
     cursor: pointer;
-    border-radius: 6px 6px 0 0;
-    font-size: 13px;
+    border-radius: 6px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--text-muted);
     border: none;
     background: transparent;
-    position: relative;
-    bottom: -2px;
-    border-bottom: 2px solid transparent;
     transition: all 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
   }
   .cat-tab:hover { color: var(--primary); }
-  .cat-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
-  .cat-tab .badge {
-    display: inline-block;
-    background: var(--border);
-    color: var(--text-muted);
-    border-radius: 10px;
-    padding: 1px 7px;
-    font-size: 11px;
-    margin-left: 4px;
-  }
-  .cat-tab.active .badge { background: var(--primary-light); color: var(--primary); }
-
-  .tag-filters {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .tag-filters label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
-  .tag-chip {
-    padding: 3px 10px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 11px;
-    transition: all 0.15s;
-  }
-  .tag-chip:hover { border-color: var(--primary); }
-  .tag-chip.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+  .cat-tab.active { background: var(--surface); color: var(--primary); font-weight: 700; box-shadow: var(--shadow-sm); }
+  .cat-tab .badge { display: none; }
 
   .search-row {
     display: flex;
@@ -185,17 +202,16 @@
     border-bottom: 1px solid var(--border);
   }
 
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: #f4f8fc; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0 4px; }
+  thead tr { background: transparent; }
   th {
-    padding: 10px 12px;
+    padding: 8px 12px;
     text-align: left;
     font-size: 11px;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
@@ -204,21 +220,36 @@
   th .sort-arrow { margin-left: 4px; opacity: 0.4; }
   th.sorted .sort-arrow { opacity: 1; color: var(--primary); }
 
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
+  tbody tr {
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    border-radius: 8px;
+    transition: box-shadow 0.15s, transform 0.1s;
   }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--primary-light); transition: background 0.1s; }
+  tbody tr:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  td {
+    padding: 11px 12px;
+    border-bottom: none;
+    vertical-align: middle;
+  }
+  td:first-child {
+    border-radius: 8px 0 0 8px;
+    border-left: 3px solid transparent;
+    transition: border-color 0.15s;
+  }
+  tbody tr:hover td:first-child { border-left-color: var(--primary); }
+  td:last-child { border-radius: 0 8px 8px 0; }
 
   .col-title { min-width: 160px; max-width: 200px; }
   .col-client { min-width: 100px; white-space: nowrap; }
   .col-status { width: 80px; }
-  .col-category { width: 60px; }
+  .col-category { display: none; }
   .col-priority { width: 60px; text-align: center; }
   .col-deadline { width: 90px; white-space: nowrap; }
-  .col-update { width: 50px; text-align: center; }
+  .col-update { display: none; }
   .col-progress { min-width: 200px; }
 
   /* ── Badges ── */
@@ -474,34 +505,37 @@
 </div>
 
 
-<div class="controls">
-  <!-- 퀵필터 -->
-  <div class="quick-filters">
-    <label>빠른 필터</label>
-    <button class="btn-filter" data-quick="weekly" onclick="toggleQuick(this)">📌 금주 업데이트</button>
-    <button class="btn-filter" data-quick="p1" onclick="toggleQuick(this)">🚨 1순위</button>
-    <button class="btn-filter" data-quick="urgent" onclick="toggleQuick(this)">⏰ 기한 임박 (7일)</button>
-    <button class="btn-filter" data-quick="active" onclick="toggleQuick(this)">🏃 진행중만</button>
-    <button class="btn-filter" data-quick="group" onclick="toggleQuick(this)">🏢 고객사별 그룹</button>
+<!-- 요약 카드 바 -->
+<div class="summary-bar">
+  <div class="summary-card" id="sum-total" onclick="setCatByName('전체')">
+    <div class="sc-label">전체 프로젝트</div>
+    <div class="sc-num" id="sum-total-num">0</div>
   </div>
+  <div class="summary-card" id="sum-active" onclick="filterByStatus('진행중')">
+    <div class="sc-label">진행중</div>
+    <div class="sc-num" id="sum-active-num">0</div>
+  </div>
+  <div class="summary-card" id="sum-urgent" onclick="filterByStatus('urgent-deadline')">
+    <div class="sc-label">기한 임박 (7일)</div>
+    <div class="sc-num" id="sum-urgent-num">0</div>
+  </div>
+  <div class="summary-card" id="sum-p1" onclick="filterByPriority(1)">
+    <div class="sc-label">1순위</div>
+    <div class="sc-num" id="sum-p1-num">0</div>
+  </div>
+</div>
 
-  <!-- 카테고리 탭 -->
+<!-- 툴바 -->
+<div class="toolbar">
   <div class="cat-tabs" id="cat-tabs">
-    <button class="cat-tab active" data-cat="전체" onclick="setCat(this)">전체 <span class="badge" id="badge-전체">0</span></button>
-    <button class="cat-tab" data-cat="제안" onclick="setCat(this)">제안 <span class="badge" id="badge-제안">0</span></button>
-    <button class="cat-tab" data-cat="수행" onclick="setCat(this)">수행 <span class="badge" id="badge-수행">0</span></button>
-    <button class="cat-tab" data-cat="R&D" onclick="setCat(this)">R&D <span class="badge" id="badge-R&D">0</span></button>
-    <button class="cat-tab" data-cat="기타" onclick="setCat(this)">기타 <span class="badge" id="badge-기타">0</span></button>
+    <button class="cat-tab active" data-cat="전체" onclick="setCat(this)">전체</button>
+    <button class="cat-tab" data-cat="제안" onclick="setCat(this)">제안</button>
+    <button class="cat-tab" data-cat="수행" onclick="setCat(this)">수행</button>
+    <button class="cat-tab" data-cat="R&D" onclick="setCat(this)">R&D</button>
+    <button class="cat-tab" data-cat="기타" onclick="setCat(this)">기타</button>
   </div>
-
-  <!-- 태그 필터 -->
-  <div class="tag-filters" id="tag-filters">
-    <label>태그</label>
-  </div>
-
-  <!-- 검색 -->
-  <div class="search-row">
-    <input class="search-input" type="text" id="search" placeholder="프로젝트명 또는 고객사 검색…" oninput="render()">
+  <div class="toolbar-right">
+    <input class="toolbar-search" type="text" id="search" placeholder="🔍  프로젝트명 · 고객사 검색" oninput="render()">
   </div>
 </div>
 
@@ -789,7 +823,44 @@ function renderRow(p) {
   </tr>`;
 }
 
+function updateSummaryBar() {
+  const p = DATA.projects;
+  const total = p.length;
+  const active = p.filter(x => ['진행중','수행'].includes(x.status)).length;
+  const urgent = p.filter(x => { const d = daysDiff(x.deadline); return d !== null && d >= 0 && d <= 7; }).length;
+  const p1 = p.filter(x => x.priority === 1).length;
+
+  document.getElementById('sum-total-num').textContent = total;
+  document.getElementById('sum-active-num').textContent = active;
+  document.getElementById('sum-urgent-num').textContent = urgent;
+  document.getElementById('sum-p1-num').textContent = p1;
+
+  document.getElementById('sum-active').classList.toggle('has-data', active > 0);
+  document.getElementById('sum-urgent').classList.toggle('has-data', urgent > 0);
+  document.getElementById('sum-p1').classList.toggle('has-data', p1 > 0);
+}
+
+function setCatByName(name) {
+  const btn = document.querySelector(`.cat-tab[data-cat="${name}"]`);
+  if (btn) setCat(btn);
+}
+
+function filterByStatus(status) {
+  if (status === '진행중') {
+    activeQuick.clear();
+    activeQuick.add('active');
+  }
+  render();
+}
+
+function filterByPriority(level) {
+  activeQuick.clear();
+  activeQuick.add('p1');
+  render();
+}
+
 function render() {
+  updateSummaryBar();
   const list = getFiltered();
   const isGroup = activeQuick.has('group');
 
