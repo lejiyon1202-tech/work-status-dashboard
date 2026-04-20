@@ -941,7 +941,7 @@ function renderRow(p) {
   const tags = (p.tags||[]).map(t => `<span class="tag-mini">${escHtml(t)}</span>`).join('');
   return `<tr ondblclick="openEditModal(${p.id})" style="cursor:pointer">
     <td class="col-title">
-      <div style="font-weight:600">${escHtml(p.title)}</div>
+      <div style="font-weight:600">${escHtml(p.title)}${p.link ? ` <a class="project-link" href="${escHtml(p.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🔗</a>` : ''}</div>
       ${tags ? `<div class="tags-cell">${tags}</div>` : ''}
     </td>
     <td class="col-client">${escHtml(p.client)}</td>
