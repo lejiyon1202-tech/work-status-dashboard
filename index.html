@@ -466,9 +466,10 @@
     <div class="updated" id="last-updated"></div>
   </div>
   <div class="header-right">
-    <span class="unsaved-badge" id="unsaved-badge">⚠️ 미저장 변경 있음 — JSON 내보내기 필요</span>
+    <span class="unsaved-badge" id="unsaved-badge">✅ 브라우저에 저장됨 — 팀 공유 시 JSON 내보내기</span>
     <button class="btn btn-save" onclick="openAddModal()">+ 프로젝트 추가</button>
-    <button class="btn btn-export" onclick="exportJSON()">⬇ JSON 내보내기</button>
+    <button class="btn btn-export" onclick="exportJSON()">💾 팀 공유용 JSON 내보내기</button>
+    <button class="btn btn-cancel" onclick="resetToDefault()" title="로컬 저장 삭제 → 서버 원본 복원">🔄 초기화</button>
   </div>
 </div>
 
@@ -583,6 +584,12 @@ let editingId = null;
 let currentView = 'list';
 let modalWeeklyUpdates = [];
 
+const LS_KEY = 'workStatusData';
+
+function saveToLS() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch(e) {}
+}
+
 const TODAY = new Date();
 TODAY.setHours(0,0,0,0);
 
@@ -595,9 +602,14 @@ function daysDiff(dateStr) {
 
 async function loadData() {
   try {
-    const res = await fetch('data.json?t=' + Date.now());
-    DATA = await res.json();
-    document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) {
+      DATA = JSON.parse(saved);
+    } else {
+      const res = await fetch('data.json?t=' + Date.now());
+      DATA = await res.json();
+    }
+    document.getElementById('last-updated').textContent = '최종 업데이트: ' + (DATA.lastUpdated || '—');
   } catch(e) {
     DATA = { projects: [], tagOptions: [], weeklyMemos: [] };
   }
@@ -1161,6 +1173,7 @@ let hasUnsaved = false;
 
 function markUnsaved() {
   hasUnsaved = true;
+  saveToLS();
   document.getElementById('unsaved-badge').classList.add('show');
 }
 
@@ -1173,6 +1186,7 @@ function exportJSON() {
     String(now.getMinutes()).padStart(2,'0');
 
   DATA.lastUpdated = now.toISOString().slice(0,10);
+  saveToLS();
   const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -1183,6 +1197,12 @@ function exportJSON() {
   hasUnsaved = false;
   document.getElementById('unsaved-badge').classList.remove('show');
   document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
+}
+
+function resetToDefault() {
+  if (!confirm('로컬 저장 내역을 삭제하고 서버 원본 데이터로 복원하시겠습니까?\n(직접 편집한 내용이 모두 사라집니다)')) return;
+  localStorage.removeItem(LS_KEY);
+  location.reload();
 }
 
 loadData();
