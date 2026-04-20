@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업무 현황 관리</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --text-muted: #718096;
+    --primary: #4f46e5;
+    --primary-light: #eef2ff;
+
+    --status-대기: #94a3b8;
+    --status-진행중: #3b82f6;
+    --status-수주: #10b981;
+    --status-수행: #f59e0b;
+    --status-완료: #6b7280;
+    --status-실주: #ef4444;
+    --status-보류: #cbd5e1;
+
+    --p1: #ef4444;
+    --p2: #f59e0b;
+    --p3: #84cc16;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header .updated { color: var(--text-muted); font-size: 12px; }
+  .header-right { margin-left: auto; display: flex; gap: 8px; }
+
+  /* ── Charts row ── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px 24px 0;
+  }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .chart-card h3 { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .chart-card canvas { max-height: 160px; }
+
+  /* ── Controls ── */
+  .controls {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quick-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .quick-filters label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+
+  .btn-filter {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-filter:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-filter.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  .cat-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid var(--border);
+  }
+  .cat-tab {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: none;
+    background: transparent;
+    position: relative;
+    bottom: -2px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .cat-tab:hover { color: var(--primary); }
+  .cat-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
+  .cat-tab .badge {
+    display: inline-block;
+    background: var(--border);
+    color: var(--text-muted);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+  .cat-tab.active .badge { background: var(--primary-light); color: var(--primary); }
+
+  .tag-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .tag-filters label { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-right: 4px; }
+  .tag-chip {
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .tag-chip:hover { border-color: var(--primary); }
+  .tag-chip.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+  .search-row {
+    display: flex;
+    gap: 8px;
+  }
+  .search-input {
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    width: 220px;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--primary); }
+
+  /* ── Table ── */
+  .table-wrap {
+    padding: 0 24px 24px;
+  }
+  .table-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .result-count {
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: #f8fafc; }
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  th:hover { color: var(--primary); }
+  th .sort-arrow { margin-left: 4px; opacity: 0.4; }
+  th.sorted .sort-arrow { opacity: 1; color: var(--primary); }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+
+  .col-title { min-width: 160px; max-width: 200px; }
+  .col-client { min-width: 100px; white-space: nowrap; }
+  .col-status { width: 80px; }
+  .col-category { width: 60px; }
+  .col-priority { width: 60px; text-align: center; }
+  .col-deadline { width: 90px; white-space: nowrap; }
+  .col-update { width: 50px; text-align: center; }
+  .col-progress { min-width: 200px; }
+
+  /* ── Badges ── */
+  .badge-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .s-대기 { background: #f1f5f9; color: var(--status-대기); }
+  .s-진행중 { background: #dbeafe; color: #1d4ed8; }
+  .s-수주 { background: #d1fae5; color: #065f46; }
+  .s-수행 { background: #fef3c7; color: #92400e; }
+  .s-완료 { background: #f0fdf4; color: #166534; }
+  .s-실주 { background: #fee2e2; color: #991b1b; }
+  .s-보류 { background: #f8fafc; color: #94a3b8; }
+
+  .badge-cat {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .c-제안 { background: #ede9fe; color: #5b21b6; }
+  .c-수행 { background: #fce7f3; color: #9d174d; }
+  .c-R\&D { background: #e0f2fe; color: #0c4a6e; }
+  .c-기타 { background: #f0fdf4; color: #166534; }
+
+  .priority-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+  .p1 { background: var(--p1); }
+  .p2 { background: var(--p2); }
+  .p3 { background: var(--p3); }
+
+  .deadline-chip {
+    font-size: 12px;
+  }
+  .deadline-chip.urgent { color: var(--p1); font-weight: 700; }
+  .deadline-chip.soon { color: var(--p2); font-weight: 600; }
+
+  .update-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--status-진행중);
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+  .tags-cell { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .tag-mini {
+    font-size: 10px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  /* ── Progress expand ── */
+  .progress-toggle {
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 11px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 4px;
+    display: block;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: var(--text);
+    white-space: pre-line;
+    max-width: 400px;
+  }
+  .progress-text.collapsed {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .next-plan { font-size: 11px; color: #059669; margin-top: 4px; }
+  .notes-text { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .notes-text a { color: var(--primary); }
+
+  /* ── Grouping view ── */
+  .group-header {
+    background: #f8fafc;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    padding: 48px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* ── Edit modal ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 24px;
+    width: 600px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .modal h2 { font-size: 16px; margin-bottom: 16px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group.full { grid-column: 1/-1; }
+  .form-group label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--primary); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+  .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; }
+  .btn-cancel { background: var(--bg); color: var(--text-muted); }
+  .btn-save { background: var(--primary); color: white; }
+  .btn-delete { background: #fee2e2; color: #991b1b; margin-right: auto; }
+
+  @media (max-width: 768px) {
+    .charts-row { grid-template-columns: 1fr; }
+    .col-category, .col-priority, .col-update { display: none; }
+    .header-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>📋 업무 현황 관리</h1>
+    <div class="updated" id="last-updated"></div>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-save" onclick="openAddModal()">+ 프로젝트 추가</button>
+  </div>
+</div>
+
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>상태별 현황</h3>
+    <canvas id="chart-status"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>구분별 현황</h3>
+    <canvas id="chart-category"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>우선순위별 현황</h3>
+    <canvas id="chart-priority"></canvas>
+  </div>
+</div>
+
+<div class="controls">
+  <!-- 퀵필터 -->
+  <div class="quick-filters">
+    <label>빠른 필터</label>
+    <button class="btn-filter" data-quick="weekly" onclick="toggleQuick(this)">📌 금주 업데이트</button>
+    <button class="btn-filter" data-quick="p1" onclick="toggleQuick(this)">🚨 1순위</button>
+    <button class="btn-filter" data-quick="urgent" onclick="toggleQuick(this)">⏰ 기한 임박 (7일)</button>
+    <button class="btn-filter" data-quick="active" onclick="toggleQuick(this)">🏃 진행중만</button>
+    <button class="btn-filter" data-quick="group" onclick="toggleQuick(this)">🏢 고객사별 그룹</button>
+  </div>
+
+  <!-- 카테고리 탭 -->
+  <div class="cat-tabs" id="cat-tabs">
+    <button class="cat-tab active" data-cat="전체" onclick="setCat(this)">전체 <span class="badge" id="badge-전체">0</span></button>
+    <button class="cat-tab" data-cat="제안" onclick="setCat(this)">제안 <span class="badge" id="badge-제안">0</span></button>
+    <button class="cat-tab" data-cat="수행" onclick="setCat(this)">수행 <span class="badge" id="badge-수행">0</span></button>
+    <button class="cat-tab" data-cat="R&D" onclick="setCat(this)">R&D <span class="badge" id="badge-R&D">0</span></button>
+    <button class="cat-tab" data-cat="기타" onclick="setCat(this)">기타 <span class="badge" id="badge-기타">0</span></button>
+  </div>
+
+  <!-- 태그 필터 -->
+  <div class="tag-filters" id="tag-filters">
+    <label>태그</label>
+  </div>
+
+  <!-- 검색 -->
+  <div class="search-row">
+    <input class="search-input" type="text" id="search" placeholder="프로젝트명 또는 고객사 검색…" oninput="render()">
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-container">
+    <div class="result-count" id="result-count"></div>
+    <div id="table-body"></div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2 id="modal-title">프로젝트 추가</h2>
+    <div class="form-grid">
+      <div class="form-group full"><label>프로젝트명 *</label><input id="f-title" type="text" placeholder="프로젝트명"></div>
+      <div class="form-group"><label>고객사</label><input id="f-client" type="text" placeholder="고객사명"></div>
+      <div class="form-group"><label>구분</label>
+        <select id="f-category">
+          <option>제안</option><option>수행</option><option>R&D</option><option>기타</option>
+        </select>
+      </div>
+      <div class="form-group"><label>상태</label>
+        <select id="f-status">
+          <option>대기</option><option>진행중</option><option>수주</option><option>수행</option><option>완료</option><option>실주</option><option>보류</option>
+        </select>
+      </div>
+      <div class="form-group"><label>우선순위</label>
+        <select id="f-priority">
+          <option value="">없음</option><option value="1">1순위</option><option value="2">2순위</option><option value="3">3순위</option>
+        </select>
+      </div>
+      <div class="form-group"><label>기한</label><input id="f-deadline" type="date"></div>
+      <div class="form-group"><label>담당자</label><input id="f-owner" type="text" placeholder="담당자명"></div>
+      <div class="form-group" style="justify-content:flex-end;padding-top:20px">
+        <label style="flex:none">
+          <input type="checkbox" id="f-weekly"> 금주 업데이트 대상
+        </label>
+      </div>
+      <div class="form-group full"><label>진행 현황</label><textarea id="f-progress" placeholder="현재 진행 상황"></textarea></div>
+      <div class="form-group full"><label>향후 계획</label><textarea id="f-nextplan" placeholder="향후 계획" style="min-height:60px"></textarea></div>
+      <div class="form-group full"><label>비고</label><textarea id="f-notes" placeholder="비고 / 링크" style="min-height:60px"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-delete" id="btn-delete" onclick="deleteProject()" style="display:none">삭제</button>
+      <button class="btn btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn btn-save" onclick="saveProject()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let DATA = { projects: [] };
+let currentCat = '전체';
+let activeQuick = new Set();
+let activeTags = new Set();
+let sortKey = 'deadline';
+let sortDir = 1;
+let editingId = null;
+
+const TODAY = new Date();
+TODAY.setHours(0,0,0,0);
+
+function daysDiff(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  d.setHours(0,0,0,0);
+  return Math.ceil((d - TODAY) / 86400000);
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    DATA = await res.json();
+    document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
+  } catch(e) {
+    DATA = { projects: [], tagOptions: [] };
+  }
+  buildTagChips();
+  updateBadges();
+  renderCharts();
+  render();
+}
+
+function buildTagChips() {
+  const container = document.getElementById('tag-filters');
+  const tags = DATA.tagOptions || [...new Set(DATA.projects.flatMap(p => p.tags || []))].sort();
+  tags.forEach(tag => {
+    const chip = document.createElement('button');
+    chip.className = 'tag-chip';
+    chip.textContent = tag;
+    chip.dataset.tag = tag;
+    chip.onclick = () => toggleTag(chip);
+    container.appendChild(chip);
+  });
+}
+
+function toggleTag(chip) {
+  const tag = chip.dataset.tag;
+  if (activeTags.has(tag)) { activeTags.delete(tag); chip.classList.remove('active'); }
+  else { activeTags.add(tag); chip.classList.add('active'); }
+  render();
+}
+
+function toggleQuick(btn) {
+  const key = btn.dataset.quick;
+  if (key === 'group') {
+    btn.classList.toggle('active');
+    activeQuick.has(key) ? activeQuick.delete(key) : activeQuick.add(key);
+    render();
+    return;
+  }
+  if (activeQuick.has(key)) { activeQuick.delete(key); btn.classList.remove('active'); }
+  else { activeQuick.add(key); btn.classList.add('active'); }
+  render();
+}
+
+function setCat(btn) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = btn.dataset.cat;
+  render();
+}
+
+function setSort(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  render();
+}
+
+function updateBadges() {
+  const cats = ['전체', '제안', '수행', 'R&D', '기타'];
+  cats.forEach(cat => {
+    const el = document.getElementById('badge-' + cat);
+    if (el) {
+      el.textContent = cat === '전체' ? DATA.projects.length : DATA.projects.filter(p => p.category === cat).length;
+    }
+  });
+}
+
+function getFiltered() {
+  let list = [...DATA.projects];
+
+  if (currentCat !== '전체') list = list.filter(p => p.category === currentCat);
+
+  if (activeQuick.has('weekly')) list = list.filter(p => p.weeklyUpdate);
+  if (activeQuick.has('p1')) list = list.filter(p => p.priority === 1);
+  if (activeQuick.has('urgent')) list = list.filter(p => {
+    const d = daysDiff(p.deadline);
+    return d !== null && d >= 0 && d <= 7;
+  });
+  if (activeQuick.has('active')) list = list.filter(p => ['진행중','수행'].includes(p.status));
+
+  if (activeTags.size > 0) {
+    list = list.filter(p => [...activeTags].every(t => (p.tags||[]).includes(t)));
+  }
+
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  if (q) list = list.filter(p =>
+    p.title.toLowerCase().includes(q) || (p.client||'').toLowerCase().includes(q)
+  );
+
+  list.sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (sortKey === 'deadline') {
+      av = av || '9999'; bv = bv || '9999';
+    }
+    if (sortKey === 'priority') {
+      av = av ?? 99; bv = bv ?? 99;
+    }
+    if (av < bv) return -sortDir;
+    if (av > bv) return sortDir;
+    return 0;
+  });
+
+  return list;
+}
+
+function statusBadge(s) {
+  return `<span class="badge-status s-${s}">${s}</span>`;
+}
+
+function catBadge(c) {
+  return `<span class="badge-cat c-${CSS.escape(c)}">${c}</span>`;
+}
+
+function priorityCell(p) {
+  if (!p) return '<span style="color:#cbd5e1">—</span>';
+  const cls = 'p' + p;
+  return `<span class="priority-dot ${cls}"></span>${p}순위`;
+}
+
+function deadlineCell(d) {
+  if (!d) return '<span style="color:#cbd5e1">—</span>';
+  const diff = daysDiff(d);
+  let cls = 'deadline-chip';
+  if (diff !== null && diff < 0) cls += ' urgent';
+  else if (diff !== null && diff <= 7) cls += ' urgent';
+  else if (diff !== null && diff <= 30) cls += ' soon';
+  return `<span class="${cls}">${d}</span>`;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function makeLink(text) {
+  return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+
+function progressCell(p, id) {
+  const txt = escHtml(p || '');
+  return `<div class="progress-text collapsed" id="prog-${id}">${txt.replace(/\n/g,'<br>')}</div>
+    ${txt.length > 60 ? `<button class="progress-toggle" onclick="toggleProgress(${id})">펼치기 ▾</button>` : ''}`;
+}
+
+function toggleProgress(id) {
+  const el = document.getElementById('prog-' + id);
+  const btn = el.nextElementSibling;
+  if (el.classList.contains('collapsed')) {
+    el.classList.remove('collapsed');
+    if (btn) btn.textContent = '접기 ▴';
+  } else {
+    el.classList.add('collapsed');
+    if (btn) btn.textContent = '펼치기 ▾';
+  }
+}
+
+function renderRow(p) {
+  const tags = (p.tags||[]).map(t => `<span class="tag-mini">${escHtml(t)}</span>`).join('');
+  return `<tr ondblclick="openEditModal(${p.id})" style="cursor:pointer">
+    <td class="col-title">
+      <div style="font-weight:600">${escHtml(p.title)}</div>
+      ${tags ? `<div class="tags-cell">${tags}</div>` : ''}
+    </td>
+    <td class="col-client">${escHtml(p.client)}</td>
+    <td class="col-category">${catBadge(p.category)}</td>
+    <td class="col-status">${statusBadge(p.status)}</td>
+    <td class="col-priority" style="white-space:nowrap">${priorityCell(p.priority)}</td>
+    <td class="col-deadline">${deadlineCell(p.deadline)}</td>
+    <td class="col-update">${p.weeklyUpdate ? '<span class="update-dot"></span>' : ''}</td>
+    <td class="col-progress">
+      ${progressCell(p.progress, p.id)}
+      ${p.nextPlan ? `<div class="next-plan">→ ${escHtml(p.nextPlan)}</div>` : ''}
+      ${p.notes ? `<div class="notes-text">${makeLink(escHtml(p.notes))}</div>` : ''}
+    </td>
+  </tr>`;
+}
+
+function render() {
+  const list = getFiltered();
+  const isGroup = activeQuick.has('group');
+
+  document.getElementById('result-count').textContent = `${list.length}건 / 전체 ${DATA.projects.length}건`;
+
+  const thead = `<thead><tr>
+    <th class="col-title ${sortKey==='title'?'sorted':''}" onclick="setSort('title')">프로젝트명 <span class="sort-arrow">↕</span></th>
+    <th class="col-client ${sortKey==='client'?'sorted':''}" onclick="setSort('client')">고객사 <span class="sort-arrow">↕</span></th>
+    <th class="col-category">구분</th>
+    <th class="col-status ${sortKey==='status'?'sorted':''}" onclick="setSort('status')">상태 <span class="sort-arrow">↕</span></th>
+    <th class="col-priority ${sortKey==='priority'?'sorted':''}" onclick="setSort('priority')">순위 <span class="sort-arrow">↕</span></th>
+    <th class="col-deadline ${sortKey==='deadline'?'sorted':''}" onclick="setSort('deadline')">기한 <span class="sort-arrow">↕</span></th>
+    <th class="col-update" title="금주 업데이트">📌</th>
+    <th class="col-progress">진행현황 / 향후계획</th>
+  </tr></thead>`;
+
+  if (list.length === 0) {
+    document.getElementById('table-body').innerHTML = '<div class="empty-state">해당 조건의 프로젝트가 없습니다.</div>';
+    return;
+  }
+
+  let html = '';
+
+  if (isGroup) {
+    const groups = {};
+    list.forEach(p => {
+      const key = p.client || '(고객사 없음)';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(p);
+    });
+    Object.keys(groups).sort().forEach(client => {
+      html += `<div class="group-header">🏢 ${escHtml(client)} (${groups[client].length}건)</div>
+        <table>${thead}<tbody>${groups[client].map(renderRow).join('')}</tbody></table>`;
+    });
+  } else {
+    html = `<table>${thead}<tbody>${list.map(renderRow).join('')}</tbody></table>`;
+  }
+
+  document.getElementById('table-body').innerHTML = html;
+}
+
+/* ── Charts ── */
+function renderCharts() {
+  const projects = DATA.projects;
+
+  // Status chart
+  const statuses = ['진행중','수행','수주','완료','대기','실주','보류'];
+  const statusColors = ['#3b82f6','#f59e0b','#10b981','#6b7280','#94a3b8','#ef4444','#cbd5e1'];
+  const statusCounts = statuses.map(s => projects.filter(p => p.status === s).length);
+  new Chart(document.getElementById('chart-status'), {
+    type: 'doughnut',
+    data: { labels: statuses, datasets: [{ data: statusCounts, backgroundColor: statusColors, borderWidth: 2 }] },
+    options: { plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } } }, cutout: '60%', maintainAspectRatio: true }
+  });
+
+  // Category chart
+  const cats = ['제안','수행','R&D','기타'];
+  const catColors = ['#8b5cf6','#ec4899','#0ea5e9','#22c55e'];
+  const catCounts = cats.map(c => projects.filter(p => p.category === c).length);
+  new Chart(document.getElementById('chart-category'), {
+    type: 'bar',
+    data: { labels: cats, datasets: [{ data: catCounts, backgroundColor: catColors, borderRadius: 6 }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } } }, x: { ticks: { font: { size: 11 } } } }, maintainAspectRatio: true }
+  });
+
+  // Priority chart
+  const prioLabels = ['1순위','2순위','3순위','미지정'];
+  const prioColors = ['#ef4444','#f59e0b','#84cc16','#e2e8f0'];
+  const prioCounts = [
+    projects.filter(p => p.priority === 1).length,
+    projects.filter(p => p.priority === 2).length,
+    projects.filter(p => p.priority === 3).length,
+    projects.filter(p => !p.priority).length
+  ];
+  new Chart(document.getElementById('chart-priority'), {
+    type: 'doughnut',
+    data: { labels: prioLabels, datasets: [{ data: prioCounts, backgroundColor: prioColors, borderWidth: 2 }] },
+    options: { plugins: { legend: { position: 'right', labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } } }, cutout: '60%', maintainAspectRatio: true }
+  });
+}
+
+/* ── Modal ── */
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = '프로젝트 추가';
+  document.getElementById('btn-delete').style.display = 'none';
+  ['title','client','owner','deadline','progress','nextplan','notes'].forEach(f => {
+    const el = document.getElementById('f-' + f);
+    if (el) el.value = '';
+  });
+  document.getElementById('f-category').value = '제안';
+  document.getElementById('f-status').value = '진행중';
+  document.getElementById('f-priority').value = '';
+  document.getElementById('f-weekly').checked = false;
+  document.getElementById('modal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const p = DATA.projects.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = '프로젝트 수정';
+  document.getElementById('btn-delete').style.display = 'block';
+  document.getElementById('f-title').value = p.title || '';
+  document.getElementById('f-client').value = p.client || '';
+  document.getElementById('f-category').value = p.category || '제안';
+  document.getElementById('f-status').value = p.status || '진행중';
+  document.getElementById('f-priority').value = p.priority || '';
+  document.getElementById('f-deadline').value = p.deadline || '';
+  document.getElementById('f-owner').value = p.owner || '';
+  document.getElementById('f-weekly').checked = p.weeklyUpdate || false;
+  document.getElementById('f-progress').value = p.progress || '';
+  document.getElementById('f-nextplan').value = p.nextPlan || '';
+  document.getElementById('f-notes').value = p.notes || '';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function saveProject() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('프로젝트명을 입력하세요.'); return; }
+
+  const obj = {
+    title,
+    client: document.getElementById('f-client').value.trim(),
+    category: document.getElementById('f-category').value,
+    tags: [],
+    status: document.getElementById('f-status').value,
+    priority: document.getElementById('f-priority').value ? parseInt(document.getElementById('f-priority').value) : null,
+    deadline: document.getElementById('f-deadline').value || '',
+    owner: document.getElementById('f-owner').value.trim() || null,
+    weeklyUpdate: document.getElementById('f-weekly').checked,
+    progress: document.getElementById('f-progress').value.trim(),
+    nextPlan: document.getElementById('f-nextplan').value.trim(),
+    notes: document.getElementById('f-notes').value.trim()
+  };
+
+  if (editingId) {
+    const idx = DATA.projects.findIndex(p => p.id === editingId);
+    if (idx >= 0) {
+      obj.id = editingId;
+      obj.tags = DATA.projects[idx].tags || [];
+      DATA.projects[idx] = obj;
+    }
+  } else {
+    obj.id = Math.max(0, ...DATA.projects.map(p => p.id)) + 1;
+    DATA.projects.push(obj);
+  }
+
+  DATA.lastUpdated = new Date().toISOString().slice(0,10);
+  document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
+  updateBadges();
+  render();
+  closeModal();
+
+  // Hint for saving
+  console.log('변경사항을 영구 저장하려면 data.json을 업데이트하세요.');
+}
+
+function deleteProject() {
+  if (!editingId) return;
+  if (!confirm('이 프로젝트를 삭제하시겠습니까?')) return;
+  DATA.projects = DATA.projects.filter(p => p.id !== editingId);
+  updateBadges();
+  render();
+  closeModal();
+}
+
+loadData();
+</script>
+</body>
+</html>
