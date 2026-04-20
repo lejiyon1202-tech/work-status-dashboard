@@ -771,14 +771,14 @@ async function loadData() {
       fromServer = true;
     }
     if (fromServer) {
-      const res = await fetch('data.json?t=' + Date.now());
+      const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
       DATA = await res.json();
       saveToLS();
     }
     document.getElementById('last-updated').textContent = '최종 업데이트: ' + (DATA.lastUpdated || '—');
   } catch(e) {
     try {
-      const res = await fetch('data.json?t=' + Date.now());
+      const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
       DATA = await res.json();
       saveToLS();
     } catch(e2) {
@@ -998,7 +998,8 @@ function filterByPriority(level) {
 }
 
 function render() {
-  updateSummaryBar();
+  try { updateSummaryBar(); } catch(e) {}
+  if (!DATA.projects) DATA.projects = [];
   const list = getFiltered();
   const isGroup = activeQuick.has('group');
 
