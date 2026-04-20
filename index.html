@@ -647,7 +647,7 @@ let editingId = null;
 let currentView = 'list';
 let modalWeeklyUpdates = [];
 
-const LS_KEY = 'workStatusData';
+const LS_KEY = 'workStatusData_v2';
 const PAT_KEY = 'githubPAT';
 const GH_REPO = 'lejiyon1202-tech/work-status-dashboard';
 const GH_FILE = 'data.json';
@@ -793,6 +793,7 @@ async function loadData() {
 
 function buildTagChips() {
   const container = document.getElementById('tag-filters');
+  if (!container) return;
   const tags = DATA.tagOptions || [...new Set(DATA.projects.flatMap(p => p.tags || []))].sort();
   tags.forEach(tag => {
     const chip = document.createElement('button');
