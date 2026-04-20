@@ -72,7 +72,6 @@
       "notes": ""
     },
     {
-      "id": 4,
       "title": "코칭 교육",
       "client": "데상트 코리아",
       "category": "수행",
@@ -83,11 +82,13 @@
       "status": "진행중",
       "priority": null,
       "deadline": "",
-      "weeklyUpdate": true,
       "owner": null,
-      "progress": "5/21, 28 참관 요청 2차 거부, 3차 요청 → 21일 참관?",
+      "weeklyUpdate": true,
+      "progress": "5/21, 28 참관 요청 2차 거부, 3차 요청 → 21일 참관",
       "nextPlan": "",
-      "notes": ""
+      "notes": "",
+      "weeklyUpdates": [],
+      "id": 4
     },
     {
       "id": 5,
