@@ -730,7 +730,7 @@ function savePAT() {
   if (!val) { alert('토큰을 입력해주세요.'); return; }
   localStorage.setItem(PAT_KEY, val);
   closePATModal();
-  persistData(DATA);
+  setSyncBadge('ok', '✅ 토큰 저장됨 — 다음 변경 시 자동 GitHub 저장');
 }
 
 function deletePAT() {
