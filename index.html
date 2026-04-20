@@ -380,6 +380,22 @@
   .btn-delete { background: #fee2e2; color: #991b1b; margin-right: auto; }
   .btn-export { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
+  /* ── Weekly Memos ── */
+  .week-memos { padding: 8px 14px 10px; background: #f8fafc; border-bottom: 1px solid var(--border); }
+  .week-memos-header { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.03em; }
+  .memo-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+  .memo-item { display: flex; align-items: flex-start; gap: 8px; padding: 7px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; }
+  .memo-item-content { flex: 1; line-height: 1.5; color: var(--text); white-space: pre-wrap; }
+  .memo-item-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; padding-top: 1px; }
+  .memo-add-btn { font-size: 12px; color: var(--primary); background: none; border: 1px dashed var(--primary); border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: background 0.12s; font-family: inherit; }
+  .memo-add-btn:hover { background: var(--primary-light); }
+  .memo-input-row { display: none; gap: 6px; align-items: flex-start; margin-top: 6px; }
+  .memo-input-row.show { display: flex; }
+  .memo-textarea { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; font-size: 12px; font-family: inherit; resize: vertical; min-height: 44px; }
+  .memo-textarea:focus { border-color: var(--primary); outline: none; }
+  .memo-save-btn { padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit; white-space: nowrap; }
+  .memo-cancel-btn { padding: 6px 10px; background: var(--bg); color: var(--text-muted); border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit; }
+
   /* ── Row Action Buttons ── */
   .col-action { width: 72px; text-align: center; }
   .btn-row-edit, .btn-row-del { border: none; background: none; cursor: pointer; border-radius: 6px; padding: 4px 6px; font-size: 14px; transition: background 0.12s; line-height: 1; }
@@ -583,8 +599,9 @@ async function loadData() {
     DATA = await res.json();
     document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
   } catch(e) {
-    DATA = { projects: [], tagOptions: [] };
+    DATA = { projects: [], tagOptions: [], weeklyMemos: [] };
   }
+  if (!DATA.weeklyMemos) DATA.weeklyMemos = [];
   buildTagChips();
   updateBadges();
   render();
@@ -853,37 +870,67 @@ function renderWeeklyView() {
     }
   });
 
-  const weeks = Object.keys(weekMap).sort().reverse();
+  const memoMap = {};
+  (DATA.weeklyMemos || []).forEach(m => {
+    if (!memoMap[m.weekOf]) memoMap[m.weekOf] = [];
+    memoMap[m.weekOf].push(m);
+  });
+
+  const allWeeks = [...new Set([...Object.keys(weekMap), ...Object.keys(memoMap)])].sort().reverse();
   const thisWeek = getWeekStart(null);
 
-  if (weeks.length === 0) {
-    document.getElementById('weekly-body').innerHTML = '<div class="week-empty">주간 업데이트 내역이 없습니다.<br>프로젝트 편집 → 주간 업데이트 탭에서 추가하세요.</div>';
+  if (allWeeks.length === 0) {
+    document.getElementById('weekly-body').innerHTML = '<div class="week-empty">주간 업데이트·메모 내역이 없습니다.<br>프로젝트 편집에서 주간 업데이트를 추가하거나, 주차별 메모를 작성해보세요.</div>';
     return;
   }
 
-  const html = weeks.map(week => {
+  const html = allWeeks.map(week => {
     const isPast = week < thisWeek;
-    const items = weekMap[week];
+    const items = weekMap[week] || [];
+    const memos = (memoMap[week] || []).slice().sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+    const wid = week.replace(/-/g,'');
+
+    const memosHtml = `<div class="week-memos">
+      <div class="week-memos-header">📝 주차 메모 ${memos.length > 0 ? `(${memos.length})` : ''}</div>
+      ${memos.length > 0 ? `<div class="memo-list">${memos.map(m => `
+        <div class="memo-item">
+          <div class="memo-item-content" id="memo-content-${m.id}">${escHtml(m.content)}</div>
+          <span class="memo-item-time">${m.createdAt.slice(5,10)}</span>
+          <button class="btn-row-edit" title="편집" onclick="editWeeklyMemo('${m.id}')">✏️</button>
+          <button class="btn-row-del" title="삭제" onclick="deleteWeeklyMemo('${m.id}')">🗑️</button>
+        </div>`).join('')}</div>` : ''}
+      <button class="memo-add-btn" onclick="showMemoInput('${wid}')">+ 메모 추가</button>
+      <div class="memo-input-row" id="memo-input-${wid}">
+        <textarea class="memo-textarea" id="memo-ta-${wid}" placeholder="이번 주 공유 사항을 입력하세요…"></textarea>
+        <button class="memo-save-btn" onclick="saveMemo('${week}','${wid}')">저장</button>
+        <button class="memo-cancel-btn" onclick="cancelMemo('${wid}')">취소</button>
+      </div>
+    </div>`;
+
+    const itemsHtml = items.length > 0 ? `
+      <div style="display:grid;grid-template-columns:200px 110px 90px 1fr 64px;gap:12px;padding:6px 16px;background:var(--bg);font-size:11px;font-weight:700;color:var(--text-muted);">
+        <span>프로젝트</span><span>고객사</span><span>상태</span><span>업데이트 내용</span><span></span>
+      </div>
+      ${items.map(({p, note}) => `<div class="week-item" style="grid-template-columns:200px 110px 90px 1fr 64px;">
+        <div><div class="week-item-title">${escHtml(p.title)}</div></div>
+        <div class="week-item-client">${escHtml(p.client||'—')}</div>
+        <div>${statusBadge(p.status)}</div>
+        <div class="week-item-note">${escHtml(note||'—')}</div>
+        <div class="week-item-actions" onclick="event.stopPropagation()">
+          <button class="btn-row-edit" title="수정" onclick="openEditModal(${p.id})">✏️</button>
+          <button class="btn-row-del" title="삭제" onclick="deleteProjectById(${p.id})">🗑️</button>
+        </div>
+      </div>`).join('')}` : '<div class="week-empty" style="padding:12px 16px">이번 주 프로젝트 업데이트가 없습니다.</div>';
+
     return `<div class="week-section">
       <div class="week-header${isPast ? ' past' : ''}" onclick="toggleWeekSection(this)">
         <span class="week-label">📅 ${getWeekLabel(week)}</span>
-        <span class="week-count">${items.length}건</span>
+        <span class="week-count">업데이트 ${items.length}건 · 메모 ${memos.length}건</span>
         <span class="week-toggle">▾</span>
       </div>
       <div class="week-body">
-        <div style="display:grid;grid-template-columns:200px 110px 90px 1fr 64px;gap:12px;padding:6px 16px;background:var(--bg);font-size:11px;font-weight:700;color:var(--text-muted);">
-          <span>프로젝트</span><span>고객사</span><span>상태</span><span>업데이트 내용</span><span></span>
-        </div>
-        ${items.map(({p, note}) => `<div class="week-item" style="grid-template-columns:200px 110px 90px 1fr 64px;">
-          <div><div class="week-item-title">${escHtml(p.title)}</div></div>
-          <div class="week-item-client">${escHtml(p.client||'—')}</div>
-          <div>${statusBadge(p.status)}</div>
-          <div class="week-item-note">${escHtml(note||'—')}</div>
-          <div class="week-item-actions" onclick="event.stopPropagation()">
-            <button class="btn-row-edit" title="수정" onclick="openEditModal(${p.id})">✏️</button>
-            <button class="btn-row-del" title="삭제" onclick="deleteProjectById(${p.id})">🗑️</button>
-          </div>
-        </div>`).join('')}
+        ${memosHtml}
+        ${itemsHtml}
       </div>
     </div>`;
   }).join('');
@@ -896,6 +943,74 @@ function toggleWeekSection(hdr) {
   const arrow = hdr.querySelector('.week-toggle');
   body.classList.toggle('collapsed');
   arrow.textContent = body.classList.contains('collapsed') ? '▸' : '▾';
+}
+
+/* ── Weekly Memo Functions ── */
+function showMemoInput(wid) {
+  const row = document.getElementById('memo-input-' + wid);
+  if (!row) return;
+  row.classList.add('show');
+  const ta = document.getElementById('memo-ta-' + wid);
+  if (ta) { ta.value = ''; ta.focus(); }
+}
+
+function cancelMemo(wid) {
+  const row = document.getElementById('memo-input-' + wid);
+  if (row) row.classList.remove('show');
+}
+
+function saveMemo(week, wid) {
+  const ta = document.getElementById('memo-ta-' + wid);
+  if (!ta || !ta.value.trim()) return;
+  if (!DATA.weeklyMemos) DATA.weeklyMemos = [];
+  DATA.weeklyMemos.push({
+    id: 'wm_' + Date.now(),
+    weekOf: week,
+    content: ta.value.trim(),
+    createdAt: new Date().toISOString()
+  });
+  markUnsaved();
+  renderWeeklyView();
+}
+
+function deleteWeeklyMemo(id) {
+  if (!confirm('메모를 삭제하시겠습니까?')) return;
+  DATA.weeklyMemos = (DATA.weeklyMemos || []).filter(m => m.id !== id);
+  markUnsaved();
+  renderWeeklyView();
+}
+
+function editWeeklyMemo(id) {
+  const m = (DATA.weeklyMemos || []).find(x => x.id === id);
+  if (!m) return;
+  const el = document.getElementById('memo-content-' + id);
+  if (!el) return;
+  const original = m.content;
+  const ta = document.createElement('textarea');
+  ta.className = 'memo-textarea';
+  ta.value = original;
+  ta.style.width = '100%';
+  ta.style.marginBottom = '4px';
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = '저장';
+  saveBtn.className = 'memo-save-btn';
+  saveBtn.style.marginRight = '4px';
+  saveBtn.onclick = () => {
+    const val = ta.value.trim();
+    if (!val) return;
+    m.content = val;
+    markUnsaved();
+    renderWeeklyView();
+  };
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = '취소';
+  cancelBtn.className = 'memo-cancel-btn';
+  cancelBtn.onclick = () => { m.content = original; renderWeeklyView(); };
+  el.innerHTML = '';
+  el.appendChild(ta);
+  el.appendChild(saveBtn);
+  el.appendChild(cancelBtn);
+  ta.focus();
 }
 
 /* ── Weekly Update (Modal) ── */
