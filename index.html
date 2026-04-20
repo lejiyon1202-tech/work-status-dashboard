@@ -386,7 +386,47 @@
     .controls { padding: 16px 16px 12px; }
     .table-wrap { padding: 0 12px 20px; }
     .header { padding: 14px 16px; }
+    .week-item { grid-template-columns: 1fr 80px; }
+    .week-item-client { display: none; }
   }
+
+  /* ── View Toggle ── */
+  .view-toggle { display: flex; gap: 4px; background: var(--bg); border-radius: 10px; padding: 4px; width: fit-content; margin-bottom: 0; }
+  .view-btn { padding: 6px 16px; border-radius: 7px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.15s; font-family: inherit; }
+  .view-btn:hover { color: var(--primary); }
+  .view-btn.active { background: var(--surface); color: var(--primary); font-weight: 700; box-shadow: var(--shadow-sm); }
+
+  /* ── Weekly View ── */
+  .weekly-wrap { padding: 0 24px 24px; display: none; }
+  .weekly-wrap.show { display: block; }
+  .table-wrap.hide { display: none; }
+  .week-section { margin-bottom: 16px; }
+  .week-header { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--primary); color: white; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: 700; cursor: pointer; user-select: none; }
+  .week-header .week-label { flex: 1; }
+  .week-header .week-count { font-size: 11px; background: rgba(255,255,255,0.2); border-radius: 10px; padding: 2px 8px; }
+  .week-header .week-toggle { font-size: 12px; opacity: 0.7; }
+  .week-header.past { background: #5c6f87; }
+  .week-body { background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; }
+  .week-body.collapsed { display: none; }
+  .week-item { display: grid; grid-template-columns: 200px 110px 90px 1fr; gap: 12px; align-items: start; padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .week-item:last-child { border-bottom: none; }
+  .week-item:hover { background: var(--primary-light); transition: background 0.1s; }
+  .week-item-title { font-weight: 600; font-size: 13px; }
+  .week-item-client { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .week-item-status { font-size: 12px; }
+  .week-item-note { font-size: 12px; color: var(--text); white-space: pre-line; line-height: 1.5; }
+  .week-empty { padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+  /* ── Weekly Update in Modal ── */
+  .wu-add-row { display: flex; gap: 6px; margin-top: 8px; }
+  .wu-add-row input[type="date"] { width: 140px; }
+  .wu-add-row input[type="text"] { flex: 1; }
+  .wu-add-btn { padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit; white-space: nowrap; }
+  .weekly-update-list { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow-y: auto; }
+  .weekly-update-item { display: flex; gap: 8px; align-items: center; padding: 6px 10px; background: var(--bg); border-radius: 6px; font-size: 12px; }
+  .weekly-update-item .wu-week { color: var(--text-muted); white-space: nowrap; min-width: 90px; }
+  .weekly-update-item .wu-note { flex: 1; }
+  .weekly-update-item .wu-del { cursor: pointer; color: #991b1b; background: none; border: none; font-size: 14px; padding: 0 4px; line-height: 1; }
 </style>
 </head>
 <body>
@@ -435,11 +475,22 @@
   </div>
 </div>
 
-<div class="table-wrap">
+<div style="padding: 0 24px 12px; display: flex; align-items: center; gap: 12px;">
+  <div class="view-toggle">
+    <button class="view-btn active" id="btn-list-view" onclick="setView('list')">목록</button>
+    <button class="view-btn" id="btn-weekly-view" onclick="setView('weekly')">주차별</button>
+  </div>
+  <span id="result-count" style="font-size:12px;color:var(--text-muted);"></span>
+</div>
+
+<div class="table-wrap" id="list-wrap">
   <div class="table-container">
-    <div class="result-count" id="result-count"></div>
     <div id="table-body"></div>
   </div>
+</div>
+
+<div class="weekly-wrap" id="weekly-wrap">
+  <div id="weekly-body"></div>
 </div>
 
 <!-- Edit Modal -->
@@ -474,6 +525,15 @@
       <div class="form-group full"><label>진행 현황</label><textarea id="f-progress" placeholder="현재 진행 상황"></textarea></div>
       <div class="form-group full"><label>향후 계획</label><textarea id="f-nextplan" placeholder="향후 계획" style="min-height:60px"></textarea></div>
       <div class="form-group full"><label>비고</label><textarea id="f-notes" placeholder="비고 / 링크" style="min-height:60px"></textarea></div>
+      <div class="form-group full">
+        <label>주간 업데이트 내역</label>
+        <div class="wu-add-row">
+          <input type="date" id="f-wu-date" title="해당 주 월요일">
+          <input type="text" id="f-wu-note" placeholder="주간 업데이트 내용 입력…">
+          <button class="wu-add-btn" onclick="addWeeklyUpdate()">+ 추가</button>
+        </div>
+        <div class="weekly-update-list" id="wu-list"></div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-delete" id="btn-delete" onclick="deleteProject()" style="display:none">삭제</button>
@@ -491,6 +551,8 @@ let activeTags = new Set();
 let sortKey = 'deadline';
 let sortDir = -1;
 let editingId = null;
+let currentView = 'list';
+let modalWeeklyUpdates = [];
 
 const TODAY = new Date();
 TODAY.setHours(0,0,0,0);
@@ -721,23 +783,150 @@ function render() {
   }
 
   document.getElementById('table-body').innerHTML = html;
+  if (currentView === 'weekly') renderWeeklyView();
 }
 
+/* ── View Toggle ── */
+function setView(v) {
+  currentView = v;
+  document.getElementById('btn-list-view').classList.toggle('active', v === 'list');
+  document.getElementById('btn-weekly-view').classList.toggle('active', v === 'weekly');
+  document.getElementById('list-wrap').classList.toggle('hide', v !== 'list');
+  const ww = document.getElementById('weekly-wrap');
+  if (v === 'weekly') { ww.classList.add('show'); renderWeeklyView(); }
+  else ww.classList.remove('show');
+}
+
+/* ── Weekly View ── */
+function getWeekStart(input) {
+  const d = input ? new Date(typeof input === 'string' ? input + (input.length === 10 ? 'T00:00:00' : '') : input) : new Date();
+  d.setHours(0,0,0,0);
+  const day = d.getDay();
+  d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
+  return d.toISOString().slice(0, 10);
+}
+
+function getWeekLabel(weekStart) {
+  const thisWeek = getWeekStart(null);
+  const prevWeek = new Date(new Date(thisWeek + 'T00:00:00').getTime() - 7*86400000).toISOString().slice(0,10);
+  const nextWeek = new Date(new Date(thisWeek + 'T00:00:00').getTime() + 7*86400000).toISOString().slice(0,10);
+  const d = new Date(weekStart + 'T00:00:00');
+  const end = new Date(d.getTime() + 6*86400000);
+  const fmt = dt => `${dt.getMonth()+1}/${dt.getDate()}`;
+  const range = `${fmt(d)}~${fmt(end)}`;
+  if (weekStart === thisWeek) return `이번 주 (${range})`;
+  if (weekStart === nextWeek) return `다음 주 (${range})`;
+  if (weekStart === prevWeek) return `지난 주 (${range})`;
+  return `${weekStart.slice(5)} (${range})`;
+}
+
+function renderWeeklyView() {
+  const weekMap = {};
+  DATA.projects.forEach(p => {
+    (p.weeklyUpdates || []).forEach(wu => {
+      const w = wu.weekOf || getWeekStart(null);
+      if (!weekMap[w]) weekMap[w] = [];
+      weekMap[w].push({ p, note: wu.note });
+    });
+    if (p.weeklyUpdate && (!p.weeklyUpdates || p.weeklyUpdates.length === 0)) {
+      const w = getWeekStart(null);
+      if (!weekMap[w]) weekMap[w] = [];
+      weekMap[w].push({ p, note: p.progress || '' });
+    }
+  });
+
+  const weeks = Object.keys(weekMap).sort().reverse();
+  const thisWeek = getWeekStart(null);
+
+  if (weeks.length === 0) {
+    document.getElementById('weekly-body').innerHTML = '<div class="week-empty">주간 업데이트 내역이 없습니다.<br>프로젝트 편집 → 주간 업데이트 탭에서 추가하세요.</div>';
+    return;
+  }
+
+  const html = weeks.map(week => {
+    const isPast = week < thisWeek;
+    const items = weekMap[week];
+    return `<div class="week-section">
+      <div class="week-header${isPast ? ' past' : ''}" onclick="toggleWeekSection(this)">
+        <span class="week-label">📅 ${getWeekLabel(week)}</span>
+        <span class="week-count">${items.length}건</span>
+        <span class="week-toggle">▾</span>
+      </div>
+      <div class="week-body">
+        <div style="display:grid;grid-template-columns:200px 110px 90px 1fr;gap:12px;padding:6px 16px;background:var(--bg);font-size:11px;font-weight:700;color:var(--text-muted);">
+          <span>프로젝트</span><span>고객사</span><span>상태</span><span>업데이트 내용</span>
+        </div>
+        ${items.map(({p, note}) => `<div class="week-item" onclick="openEditModal(${p.id})">
+          <div><div class="week-item-title">${escHtml(p.title)}</div></div>
+          <div class="week-item-client">${escHtml(p.client||'—')}</div>
+          <div>${statusBadge(p.status)}</div>
+          <div class="week-item-note">${escHtml(note||'—')}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('weekly-body').innerHTML = html;
+}
+
+function toggleWeekSection(hdr) {
+  const body = hdr.nextElementSibling;
+  const arrow = hdr.querySelector('.week-toggle');
+  body.classList.toggle('collapsed');
+  arrow.textContent = body.classList.contains('collapsed') ? '▸' : '▾';
+}
+
+/* ── Weekly Update (Modal) ── */
+function renderWUList() {
+  const el = document.getElementById('wu-list');
+  if (!el) return;
+  if (modalWeeklyUpdates.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:4px 0">등록된 주간 업데이트가 없습니다.</div>';
+    return;
+  }
+  el.innerHTML = modalWeeklyUpdates.map((wu, i) =>
+    `<div class="weekly-update-item">
+      <span class="wu-week">${wu.weekOf}</span>
+      <span class="wu-note">${escHtml(wu.note)}</span>
+      <button class="wu-del" onclick="removeWU(${i})">✕</button>
+    </div>`
+  ).join('');
+}
+
+function addWeeklyUpdate() {
+  const dateEl = document.getElementById('f-wu-date');
+  const noteEl = document.getElementById('f-wu-note');
+  const note = noteEl.value.trim();
+  if (!note) { noteEl.focus(); return; }
+  const weekOf = dateEl.value ? getWeekStart(dateEl.value) : getWeekStart(null);
+  modalWeeklyUpdates.push({ weekOf, note });
+  modalWeeklyUpdates.sort((a,b) => b.weekOf.localeCompare(a.weekOf));
+  noteEl.value = '';
+  renderWUList();
+}
+
+function removeWU(idx) {
+  modalWeeklyUpdates.splice(idx, 1);
+  renderWUList();
 }
 
 /* ── Modal ── */
 function openAddModal() {
   editingId = null;
+  modalWeeklyUpdates = [];
   document.getElementById('modal-title').textContent = '프로젝트 추가';
   document.getElementById('btn-delete').style.display = 'none';
-  ['title','client','owner','deadline','progress','nextplan','notes'].forEach(f => {
+  ['title','client','owner','deadline','progress','nextplan','notes','wu-note'].forEach(f => {
     const el = document.getElementById('f-' + f);
     if (el) el.value = '';
   });
+  const wuDate = document.getElementById('f-wu-date');
+  if (wuDate) wuDate.value = getWeekStart(null);
   document.getElementById('f-category').value = '제안';
   document.getElementById('f-status').value = '진행중';
   document.getElementById('f-priority').value = '';
   document.getElementById('f-weekly').checked = false;
+  renderWUList();
   document.getElementById('modal').classList.add('open');
 }
 
@@ -758,6 +947,12 @@ function openEditModal(id) {
   document.getElementById('f-progress').value = p.progress || '';
   document.getElementById('f-nextplan').value = p.nextPlan || '';
   document.getElementById('f-notes').value = p.notes || '';
+  modalWeeklyUpdates = JSON.parse(JSON.stringify(p.weeklyUpdates || []));
+  const wuDate = document.getElementById('f-wu-date');
+  if (wuDate) wuDate.value = getWeekStart(null);
+  const wuNote = document.getElementById('f-wu-note');
+  if (wuNote) wuNote.value = '';
+  renderWUList();
   document.getElementById('modal').classList.add('open');
 }
 
@@ -781,7 +976,8 @@ function saveProject() {
     weeklyUpdate: document.getElementById('f-weekly').checked,
     progress: document.getElementById('f-progress').value.trim(),
     nextPlan: document.getElementById('f-nextplan').value.trim(),
-    notes: document.getElementById('f-notes').value.trim()
+    notes: document.getElementById('f-notes').value.trim(),
+    weeklyUpdates: [...modalWeeklyUpdates]
   };
 
   if (editingId) {
