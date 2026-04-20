@@ -386,47 +386,53 @@
     .controls { padding: 16px 16px 12px; }
     .table-wrap { padding: 0 12px 20px; }
     .header { padding: 14px 16px; }
+    .view-toggle-bar { padding: 0 12px 10px; }
+    .weekly-wrap { padding: 0 12px 20px; }
     .week-item { grid-template-columns: 1fr 80px; }
     .week-item-client { display: none; }
   }
 
   /* ── View Toggle ── */
-  .view-toggle { display: flex; gap: 4px; background: var(--bg); border-radius: 10px; padding: 4px; width: fit-content; margin-bottom: 0; }
-  .view-btn { padding: 6px 16px; border-radius: 7px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.15s; font-family: inherit; }
+  .view-toggle-bar { padding: 0 28px 12px; display: flex; align-items: center; gap: 12px; }
+  .result-count-text { font-size: 12px; color: var(--text-muted); }
+  .view-toggle { display: flex; gap: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 3px; width: fit-content; }
+  .view-btn { padding: 6px 18px; border-radius: 7px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.15s; font-family: inherit; }
   .view-btn:hover { color: var(--primary); }
   .view-btn.active { background: var(--surface); color: var(--primary); font-weight: 700; box-shadow: var(--shadow-sm); }
 
   /* ── Weekly View ── */
-  .weekly-wrap { padding: 0 24px 24px; display: none; }
+  .weekly-wrap { padding: 0 28px 28px; display: none; }
   .weekly-wrap.show { display: block; }
   .table-wrap.hide { display: none; }
-  .week-section { margin-bottom: 16px; }
-  .week-header { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--primary); color: white; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: 700; cursor: pointer; user-select: none; }
-  .week-header .week-label { flex: 1; }
-  .week-header .week-count { font-size: 11px; background: rgba(255,255,255,0.2); border-radius: 10px; padding: 2px 8px; }
-  .week-header .week-toggle { font-size: 12px; opacity: 0.7; }
-  .week-header.past { background: #5c6f87; }
-  .week-body { background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; }
+  .week-section { margin-bottom: 14px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .week-header { display: flex; align-items: center; gap: 8px; padding: 11px 16px; background: var(--primary); color: white; font-size: 13px; font-weight: 700; cursor: pointer; user-select: none; }
+  .week-header .week-label { flex: 1; letter-spacing: -0.01em; }
+  .week-header .week-count { font-size: 11px; background: rgba(255,255,255,0.18); border-radius: 10px; padding: 2px 9px; font-weight: 600; }
+  .week-header .week-toggle { font-size: 11px; opacity: 0.65; margin-left: 4px; }
+  .week-header.past { background: #4a5e72; }
+  .week-body { background: var(--surface); border: 1px solid var(--border); border-top: none; overflow: hidden; }
   .week-body.collapsed { display: none; }
-  .week-item { display: grid; grid-template-columns: 200px 110px 90px 1fr; gap: 12px; align-items: start; padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .week-item { display: grid; grid-template-columns: 200px 110px 90px 1fr; gap: 12px; align-items: start; padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.1s; }
   .week-item:last-child { border-bottom: none; }
-  .week-item:hover { background: var(--primary-light); transition: background 0.1s; }
-  .week-item-title { font-weight: 600; font-size: 13px; }
-  .week-item-client { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .week-item:hover { background: var(--primary-light); }
+  .week-item-title { font-weight: 600; font-size: 13px; color: var(--text); }
+  .week-item-client { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
   .week-item-status { font-size: 12px; }
-  .week-item-note { font-size: 12px; color: var(--text); white-space: pre-line; line-height: 1.5; }
-  .week-empty { padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px; }
+  .week-item-note { font-size: 12px; color: var(--text-muted); white-space: pre-line; line-height: 1.55; }
+  .week-empty { padding: 28px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
   /* ── Weekly Update in Modal ── */
   .wu-add-row { display: flex; gap: 6px; margin-top: 8px; }
   .wu-add-row input[type="date"] { width: 140px; }
   .wu-add-row input[type="text"] { flex: 1; }
-  .wu-add-btn { padding: 6px 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit; white-space: nowrap; }
+  .wu-add-btn { padding: 6px 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit; font-weight: 600; white-space: nowrap; transition: opacity 0.15s; }
+  .wu-add-btn:hover { opacity: 0.85; }
   .weekly-update-list { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow-y: auto; }
-  .weekly-update-item { display: flex; gap: 8px; align-items: center; padding: 6px 10px; background: var(--bg); border-radius: 6px; font-size: 12px; }
-  .weekly-update-item .wu-week { color: var(--text-muted); white-space: nowrap; min-width: 90px; }
-  .weekly-update-item .wu-note { flex: 1; }
-  .weekly-update-item .wu-del { cursor: pointer; color: #991b1b; background: none; border: none; font-size: 14px; padding: 0 4px; line-height: 1; }
+  .weekly-update-item { display: flex; gap: 8px; align-items: center; padding: 7px 10px; background: var(--bg); border-radius: 7px; font-size: 12px; border: 1px solid var(--border); }
+  .weekly-update-item .wu-week { color: var(--primary); font-weight: 600; white-space: nowrap; min-width: 90px; }
+  .weekly-update-item .wu-note { flex: 1; color: var(--text); }
+  .weekly-update-item .wu-del { cursor: pointer; color: var(--text-muted); background: none; border: none; font-size: 14px; padding: 0 4px; line-height: 1; transition: color 0.1s; }
+  .weekly-update-item .wu-del:hover { color: #991b1b; }
 </style>
 </head>
 <body>
@@ -475,12 +481,12 @@
   </div>
 </div>
 
-<div style="padding: 0 24px 12px; display: flex; align-items: center; gap: 12px;">
+<div class="view-toggle-bar">
   <div class="view-toggle">
-    <button class="view-btn active" id="btn-list-view" onclick="setView('list')">목록</button>
-    <button class="view-btn" id="btn-weekly-view" onclick="setView('weekly')">주차별</button>
+    <button class="view-btn active" id="btn-list-view" onclick="setView('list')">📋 목록</button>
+    <button class="view-btn" id="btn-weekly-view" onclick="setView('weekly')">📅 주차별</button>
   </div>
-  <span id="result-count" style="font-size:12px;color:var(--text-muted);"></span>
+  <span class="result-count-text" id="result-count"></span>
 </div>
 
 <div class="table-wrap" id="list-wrap">
