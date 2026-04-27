@@ -65,45 +65,6 @@
   .header .updated { color: rgba(255,255,255,0.45); font-size: 11px; margin-top: 1px; }
   .header-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
 
-  /* ── Summary Bar ── */
-  .summary-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    padding: 16px 28px 0;
-  }
-  .summary-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .summary-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
-  .summary-card.active { border-color: var(--primary); background: var(--primary-light); }
-  .summary-card .sc-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-light);
-    margin-bottom: 6px;
-  }
-  .summary-card .sc-num {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .summary-card .sc-sub { font-size: 11px; color: var(--text-light); margin-top: 4px; }
-  #sum-urgent .sc-num { color: var(--p2); }
-  #sum-urgent.has-data .sc-num { color: var(--p1); }
-  #sum-active.has-data .sc-num { color: var(--status-진행중); }
-  #sum-p1.has-data .sc-num { color: var(--p1); }
-
   /* ── Toolbar (필터 1줄) ── */
   .toolbar {
     display: flex;
@@ -504,34 +465,14 @@
     <div class="updated" id="last-updated"></div>
   </div>
   <div class="header-right">
-    <span class="unsaved-badge" id="unsaved-badge">✅ 브라우저에 저장됨 — 팀 공유 시 JSON 내보내기</span>
+    <span class="unsaved-badge" id="unsaved-badge">✅ Jira 자동 sync 운영 중</span>
     <button class="btn btn-save" onclick="openAddModal()">+ 프로젝트 추가</button>
     <button class="btn btn-export" onclick="exportJSON()">💾 팀 공유용 JSON 내보내기</button>
     <button class="btn btn-cancel" onclick="resetToDefault()" title="로컬 저장 삭제 → 서버 원본 복원">🔄 초기화</button>
-    <button class="btn btn-cancel" onclick="openPATModal()" title="GitHub 저장 토큰 설정" style="font-size:16px;padding:6px 10px">⚙️</button>
   </div>
 </div>
 
 
-<!-- 요약 카드 바 -->
-<div class="summary-bar">
-  <div class="summary-card" id="sum-total" onclick="setCatByName('전체')">
-    <div class="sc-label">전체 프로젝트</div>
-    <div class="sc-num" id="sum-total-num">0</div>
-  </div>
-  <div class="summary-card" id="sum-active" onclick="filterByStatus('진행중')">
-    <div class="sc-label">진행중</div>
-    <div class="sc-num" id="sum-active-num">0</div>
-  </div>
-  <div class="summary-card" id="sum-urgent" onclick="filterByStatus('urgent-deadline')">
-    <div class="sc-label">기한 임박 (7일)</div>
-    <div class="sc-num" id="sum-urgent-num">0</div>
-  </div>
-  <div class="summary-card" id="sum-p1" onclick="filterByPriority(1)">
-    <div class="sc-label">1순위</div>
-    <div class="sc-num" id="sum-p1-num">0</div>
-  </div>
-</div>
 
 <!-- 툴바 -->
 <div class="toolbar">
@@ -615,29 +556,6 @@
   </div>
 </div>
 
-<!-- PAT 설정 모달 -->
-<div class="modal-overlay" id="pat-modal" onclick="if(event.target===this)closePATModal()">
-  <div class="modal" style="max-width:440px">
-    <h2>⚙️ GitHub 저장 토큰 설정</h2>
-    <p id="pat-modal-msg" style="font-size:13px;color:var(--text-muted);margin-bottom:16px">저장 버튼을 누르면 GitHub에 직접 반영됩니다. Fine-grained PAT를 입력해주세요.</p>
-    <div class="form-group full">
-      <label>Personal Access Token (PAT)</label>
-      <input type="password" id="f-pat" placeholder="github_pat_xxxxxxxxxxxxxxxxxxxx" style="font-family:monospace;letter-spacing:0.04em">
-      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7;background:var(--bg);padding:8px 10px;border-radius:6px">
-        📌 <b>발급 방법:</b> github.com → Settings → Developer settings → Fine-grained tokens<br>
-        → Repository access: <b>work-status-dashboard</b> 하나만<br>
-        → Permissions: <b>Contents: Read &amp; Write</b> (나머지 꺼둠)<br>
-        → 만료: 30일 권장
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-delete" id="btn-del-pat" onclick="deletePAT()" style="display:none">🗑️ 토큰 삭제</button>
-      <button class="btn btn-cancel" onclick="closePATModal()">취소</button>
-      <button class="btn btn-save" onclick="savePAT()">토큰 저장</button>
-    </div>
-  </div>
-</div>
-
 <script>
 let DATA = { projects: [] };
 let currentCat = '전체';
@@ -650,9 +568,6 @@ let currentView = 'list';
 let modalWeeklyUpdates = [];
 
 const LS_KEY = 'workStatusData_v3';
-const PAT_KEY = 'githubPAT';
-const GH_REPO = 'lejiyon1202-tech/work-status-dashboard';
-const GH_FILE = 'data.json';
 
 function kst() {
   const d = new Date(Date.now() + 9 * 60 * 60 * 1000);
@@ -669,84 +584,6 @@ function saveToLS() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch(e) {}
 }
 
-/* ── GitHub API ── */
-function getStoredPAT() { return localStorage.getItem(PAT_KEY) || ''; }
-
-function setSyncBadge(state, msg) {
-  const el = document.getElementById('unsaved-badge');
-  if (!el) return;
-  el.textContent = msg;
-  el.className = 'unsaved-badge ' + (state === 'ok' ? 'sync-ok' : state === 'fail' ? 'sync-fail' : 'sync-pending');
-  el.classList.add('show');
-  if (state === 'ok') setTimeout(() => el.classList.remove('show'), 4000);
-}
-
-async function saveToGitHub(data) {
-  const pat = getStoredPAT();
-  if (!pat) { openPATModal(); return false; }
-  setSyncBadge('pending', '🔄 GitHub에 저장 중...');
-  try {
-    const headers = { 'Authorization': 'token ' + pat, 'Content-Type': 'application/json' };
-    const shaRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { headers });
-    if (shaRes.status === 401) {
-      localStorage.removeItem(PAT_KEY);
-      openPATModal('토큰이 만료됐거나 유효하지 않습니다. 새 토큰을 입력해주세요.');
-      setSyncBadge('fail', '❌ 토큰 오류 — ⚙️ 버튼에서 재입력');
-      return false;
-    }
-    if (!shaRes.ok) throw new Error('SHA 조회 실패 ' + shaRes.status);
-    const { sha } = await shaRes.json();
-
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-    const t = kst();
-    const putRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
-      method: 'PUT', headers,
-      body: JSON.stringify({ message: `업무현황 업데이트 ${t.datetime} KST`, content, sha })
-    });
-    if (!putRes.ok) throw new Error('PUT 실패 ' + putRes.status);
-
-    setSyncBadge('ok', `✅ 서버 저장됨 — ${t.hhmm} KST (1~2분 후 반영)`);
-    return true;
-  } catch(e) {
-    console.error('[GitHub 저장 오류]', e);
-    setSyncBadge('fail', '❌ 저장 실패 — 로컬에는 유지됨');
-    return false;
-  }
-}
-
-async function persistData(data) {
-  return saveToGitHub(data);
-}
-
-/* ── PAT Modal ── */
-function openPATModal(msg) {
-  const m = document.getElementById('pat-modal-msg');
-  if (m && msg) { m.textContent = msg; m.style.color = '#DC2626'; }
-  const hasPAT = !!getStoredPAT();
-  document.getElementById('btn-del-pat').style.display = hasPAT ? 'block' : 'none';
-  document.getElementById('f-pat').value = '';
-  document.getElementById('pat-modal').classList.add('open');
-}
-
-function closePATModal() {
-  document.getElementById('pat-modal').classList.remove('open');
-  const m = document.getElementById('pat-modal-msg');
-  if (m) { m.textContent = '저장 버튼을 누르면 GitHub에 직접 반영됩니다. Fine-grained PAT를 입력해주세요.'; m.style.color = ''; }
-}
-
-function savePAT() {
-  const val = document.getElementById('f-pat').value.trim();
-  if (!val) { alert('토큰을 입력해주세요.'); return; }
-  localStorage.setItem(PAT_KEY, val);
-  closePATModal();
-  setSyncBadge('ok', '✅ 토큰 저장됨 — 다음 변경 시 자동 GitHub 저장');
-}
-
-function deletePAT() {
-  if (!confirm('저장된 토큰을 삭제하시겠습니까? 이후 저장 시 토큰을 다시 입력해야 합니다.')) return;
-  localStorage.removeItem(PAT_KEY);
-  closePATModal();
-}
 
 const TODAY = new Date(Date.now() + 9 * 60 * 60 * 1000);
 TODAY.setHours(0,0,0,0);
@@ -952,44 +789,8 @@ function renderRow(p) {
   </tr>`;
 }
 
-function updateSummaryBar() {
-  const p = DATA.projects;
-  const total = p.length;
-  const active = p.filter(x => ['진행중','수행'].includes(x.status)).length;
-  const urgent = p.filter(x => { const d = daysDiff(x.deadline); return d !== null && d >= 0 && d <= 7; }).length;
-  const p1 = p.filter(x => x.priority === 1).length;
-
-  document.getElementById('sum-total-num').textContent = total;
-  document.getElementById('sum-active-num').textContent = active;
-  document.getElementById('sum-urgent-num').textContent = urgent;
-  document.getElementById('sum-p1-num').textContent = p1;
-
-  document.getElementById('sum-active').classList.toggle('has-data', active > 0);
-  document.getElementById('sum-urgent').classList.toggle('has-data', urgent > 0);
-  document.getElementById('sum-p1').classList.toggle('has-data', p1 > 0);
-}
-
-function setCatByName(name) {
-  const btn = document.querySelector(`.cat-tab[data-cat="${name}"]`);
-  if (btn) setCat(btn);
-}
-
-function filterByStatus(status) {
-  if (status === '진행중') {
-    activeQuick.clear();
-    activeQuick.add('active');
-  }
-  render();
-}
-
-function filterByPriority(level) {
-  activeQuick.clear();
-  activeQuick.add('p1');
-  render();
-}
 
 function render() {
-  try { updateSummaryBar(); } catch(e) {}
   if (!DATA.projects) DATA.projects = [];
   const list = getFiltered();
   const isGroup = activeQuick.has('group');
@@ -1370,16 +1171,8 @@ function deleteProjectById(id) {
   render();
 }
 
-let hasUnsaved = false;
-
 function markUnsaved() {
-  hasUnsaved = true;
   saveToLS();
-  if (getStoredPAT()) {
-    persistData(DATA);
-  } else {
-    setSyncBadge('pending', '⚠️ 브라우저에 저장됨 — ⚙️ 눌러 GitHub 연동');
-  }
 }
 
 function exportJSON() {
@@ -1395,8 +1188,6 @@ function exportJSON() {
   a.click();
   URL.revokeObjectURL(a.href);
 
-  hasUnsaved = false;
-  document.getElementById('unsaved-badge').classList.remove('show');
   document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
 }
 
