@@ -178,7 +178,6 @@
       "notes": ""
     },
     {
-      "id": 10,
       "title": "리더십 교육",
       "client": "코스콤",
       "category": "제안",
@@ -189,11 +188,13 @@
       "status": "진행중",
       "priority": null,
       "deadline": "2026-03-09",
-      "weeklyUpdate": true,
       "owner": null,
+      "weeklyUpdate": false,
       "progress": "제안서 작성 완료\n강사 세팅 중\n직책자 역량 강화 - AI 트렌드 파트 이동근 센터장님 일정 불가로 이승필 대표, 김태우 대표님 문의\n\n4/1,2,3 퇴직예정자 교육 진행 예정\n4/10 정우성 강사 교육 진행 예정",
       "nextPlan": "",
-      "notes": ""
+      "notes": "",
+      "weeklyUpdates": [],
+      "id": 10
     },
     {
       "id": 11,
