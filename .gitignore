@@ -1,0 +1,3 @@
+jira-sync/.env
+jira-sync/node_modules/
+*.log
