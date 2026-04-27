@@ -818,6 +818,7 @@ function setCat(btn) {
   document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   currentCat = btn.dataset.cat;
+  activeQuick.clear();
   render();
 }
 
