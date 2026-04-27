@@ -649,7 +649,7 @@ let editingId = null;
 let currentView = 'list';
 let modalWeeklyUpdates = [];
 
-const LS_KEY = 'workStatusData_v2';
+const LS_KEY = 'workStatusData_v3';
 const PAT_KEY = 'githubPAT';
 const GH_REPO = 'lejiyon1202-tech/work-status-dashboard';
 const GH_FILE = 'data.json';
@@ -759,35 +759,22 @@ function daysDiff(dateStr) {
 }
 
 async function loadData() {
-  let fromServer = false;
   try {
+    const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+    DATA = await res.json();
+    saveToLS();
+  } catch(e) {
     const saved = localStorage.getItem(LS_KEY);
     if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.projects && parsed.projects.length > 0) {
-        DATA = parsed;
-      } else {
-        fromServer = true;
-      }
-    } else {
-      fromServer = true;
-    }
-    if (fromServer) {
-      const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
-      DATA = await res.json();
-      saveToLS();
-    }
-    document.getElementById('last-updated').textContent = '최종 업데이트: ' + (DATA.lastUpdated || '—');
-  } catch(e) {
-    try {
-      const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
-      DATA = await res.json();
-      saveToLS();
-    } catch(e2) {
-      DATA = { projects: [], tagOptions: [], weeklyMemos: [] };
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.projects && parsed.projects.length > 0) DATA = parsed;
+      } catch(e2) {}
     }
   }
+  if (!DATA.projects) DATA.projects = [];
   if (!DATA.weeklyMemos) DATA.weeklyMemos = [];
+  document.getElementById('last-updated').textContent = '최종 업데이트: ' + (DATA.lastUpdated || '—');
   buildTagChips();
   updateBadges();
   render();
