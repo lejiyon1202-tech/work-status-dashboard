@@ -467,7 +467,6 @@
       "id": 25
     },
     {
-      "id": 26,
       "title": "주재원 교육",
       "client": "자체",
       "category": "수행",
@@ -477,11 +476,13 @@
       "status": "진행중",
       "priority": null,
       "deadline": "",
-      "weeklyUpdate": true,
       "owner": null,
+      "weeklyUpdate": false,
       "progress": "4월 교육 마무리",
       "nextPlan": "6월, 8월 진행 예정 (만족도 조사 없음)",
-      "notes": ""
+      "notes": "",
+      "weeklyUpdates": [],
+      "id": 26
     },
     {
       "id": 27,
