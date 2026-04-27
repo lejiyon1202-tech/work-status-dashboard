@@ -469,6 +469,7 @@
     <button class="btn btn-save" onclick="openAddModal()">+ 프로젝트 추가</button>
     <button class="btn btn-export" onclick="exportJSON()">💾 팀 공유용 JSON 내보내기</button>
     <button class="btn btn-cancel" onclick="resetToDefault()" title="로컬 저장 삭제 → 서버 원본 복원">🔄 초기화</button>
+    <button class="btn btn-cancel" onclick="openPATModal()" title="GitHub 저장 토큰 설정" style="font-size:16px;padding:6px 10px">⚙️</button>
   </div>
 </div>
 
@@ -556,6 +557,28 @@
   </div>
 </div>
 
+<!-- PAT 설정 모달 -->
+<div class="modal-overlay" id="pat-modal" onclick="if(event.target===this)closePATModal()">
+  <div class="modal" style="max-width:440px">
+    <h2>⚙️ GitHub 저장 토큰 설정</h2>
+    <p id="pat-modal-msg" style="font-size:13px;color:var(--text-muted);margin-bottom:16px">저장 버튼을 누르면 GitHub에 직접 반영됩니다. Fine-grained PAT를 입력해주세요.</p>
+    <div class="form-group full">
+      <label>Personal Access Token (PAT)</label>
+      <input type="password" id="f-pat" placeholder="github_pat_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="font-family:monospace;letter-spacing:0.04em">
+      <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.7;background:var(--bg);padding:8px 10px;border-radius:6px">
+        📌 <b>발급 방법:</b> github.com → Settings → Developer settings → Fine-grained tokens<br>
+        → Repository access: <b>work-status-dashboard</b> 하나만<br>
+        → Permissions: <b>Contents: Read &amp; Write</b> (나머지 꺼둠)
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-delete" id="btn-del-pat" onclick="deletePAT()" style="display:none">🗑️ 토큰 삭제</button>
+      <button class="btn btn-cancel" onclick="closePATModal()">취소</button>
+      <button class="btn btn-save" onclick="savePAT()">토큰 저장</button>
+    </div>
+  </div>
+</div>
+
 <script>
 let DATA = { projects: [] };
 let currentCat = '전체';
@@ -568,6 +591,9 @@ let currentView = 'list';
 let modalWeeklyUpdates = [];
 
 const LS_KEY = 'workStatusData_v3';
+const PAT_KEY = 'githubPAT';
+const GH_REPO = 'lejiyon1202-tech/work-status-dashboard';
+const GH_FILE = 'data.json';
 
 function kst() {
   const d = new Date(Date.now() + 9 * 60 * 60 * 1000);
@@ -582,6 +608,83 @@ function kst() {
 
 function saveToLS() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch(e) {}
+}
+
+/* ── GitHub API ── */
+function getStoredPAT() { return localStorage.getItem(PAT_KEY) || ''; }
+
+function setSyncBadge(state, msg) {
+  const el = document.getElementById('unsaved-badge');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'unsaved-badge ' + (state === 'ok' ? 'sync-ok' : state === 'fail' ? 'sync-fail' : 'sync-pending');
+  el.classList.add('show');
+  if (state === 'ok') setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+async function saveToGitHub(data) {
+  const pat = getStoredPAT();
+  if (!pat) { openPATModal(); return false; }
+  setSyncBadge('pending', '🔄 GitHub에 저장 중...');
+  try {
+    const headers = { 'Authorization': 'token ' + pat, 'Content-Type': 'application/json' };
+    const shaRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { headers });
+    if (shaRes.status === 401) {
+      localStorage.removeItem(PAT_KEY);
+      openPATModal('토큰이 만료됐거나 유효하지 않습니다. 새 토큰을 입력해주세요.');
+      setSyncBadge('fail', '❌ 토큰 오류 — ⚙️ 버튼에서 재입력');
+      return false;
+    }
+    if (!shaRes.ok) throw new Error('SHA 조회 실패 ' + shaRes.status);
+    const { sha } = await shaRes.json();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const t = kst();
+    const putRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT', headers,
+      body: JSON.stringify({ message: `업무현황 업데이트 ${t.datetime} KST`, content, sha })
+    });
+    if (!putRes.ok) throw new Error('PUT 실패 ' + putRes.status);
+    setSyncBadge('ok', `✅ GitHub 저장됨 — ${t.hhmm} KST`);
+    return true;
+  } catch(e) {
+    console.error('[GitHub 저장 오류]', e);
+    setSyncBadge('fail', '❌ 저장 실패 — 로컬에는 유지됨');
+    return false;
+  }
+}
+
+async function persistData(data) {
+  return saveToGitHub(data);
+}
+
+/* ── PAT Modal ── */
+function openPATModal(msg) {
+  const m = document.getElementById('pat-modal-msg');
+  if (m && msg) { m.textContent = msg; m.style.color = '#DC2626'; }
+  const hasPAT = !!getStoredPAT();
+  document.getElementById('btn-del-pat').style.display = hasPAT ? 'block' : 'none';
+  document.getElementById('f-pat').value = '';
+  document.getElementById('pat-modal').classList.add('open');
+}
+
+function closePATModal() {
+  document.getElementById('pat-modal').classList.remove('open');
+  const m = document.getElementById('pat-modal-msg');
+  if (m) { m.textContent = '저장 버튼을 누르면 GitHub에 직접 반영됩니다. Fine-grained PAT를 입력해주세요.'; m.style.color = ''; }
+}
+
+function savePAT() {
+  const val = document.getElementById('f-pat').value.trim();
+  if (!val) { alert('토큰을 입력해주세요.'); return; }
+  localStorage.setItem(PAT_KEY, val);
+  closePATModal();
+  setSyncBadge('ok', '✅ 토큰 저장됨 — 다음 변경 시 자동 GitHub 저장');
+}
+
+function deletePAT() {
+  if (!confirm('저장된 토큰을 삭제하시겠습니까? 이후 저장 시 토큰을 다시 입력해야 합니다.')) return;
+  localStorage.removeItem(PAT_KEY);
+  closePATModal();
 }
 
 
@@ -1171,8 +1274,16 @@ function deleteProjectById(id) {
   render();
 }
 
+let hasUnsaved = false;
+
 function markUnsaved() {
+  hasUnsaved = true;
   saveToLS();
+  if (getStoredPAT()) {
+    persistData(DATA);
+  } else {
+    setSyncBadge('pending', '⚠️ 브라우저에 저장됨 — ⚙️ 눌러 GitHub 연동');
+  }
 }
 
 function exportJSON() {
@@ -1188,6 +1299,8 @@ function exportJSON() {
   a.click();
   URL.revokeObjectURL(a.href);
 
+  hasUnsaved = false;
+  document.getElementById('unsaved-badge').classList.remove('show');
   document.getElementById('last-updated').textContent = '최종 업데이트: ' + DATA.lastUpdated;
 }
 
