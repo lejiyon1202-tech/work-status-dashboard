@@ -455,12 +455,12 @@
       "tags": [
         "리더십"
       ],
-      "status": "완료",
+      "status": "진행중",
       "priority": 1,
       "deadline": "2026-01-20",
       "owner": null,
       "weeklyUpdate": false,
-      "progress": "수주 완료",
+      "progress": "수주 완료\n2026-04-27: Jira 자동 동기화 (LZIJ-1454)",
       "nextPlan": "",
       "notes": "https://ihunet.atlassian.net/browse/LZIJ-1454",
       "weeklyUpdates": [],
@@ -574,6 +574,805 @@
       "progress": "사용량 이슈 → Opus 4.7 자동 변경 적용",
       "nextPlan": "",
       "notes": ""
+    },
+    {
+      "id": 32,
+      "title": "[한국항공우주산업/1429] 직장(현장직 최고관리자) 대상 변화관리, 성과관리 교육 제안 요청",
+      "client": "1429",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-04-27",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2500)",
+      "nextPlan": "",
+      "notes": "LZIJ-2500."
+    },
+    {
+      "id": 33,
+      "title": "[46263/우리금융캐피탈] 본사부장 및 지점장 리더십 교육 강사 제안 요청",
+      "client": "우리금융캐피탈",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-04-29",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2469)",
+      "nextPlan": "",
+      "notes": "LZIJ-2469."
+    },
+    {
+      "id": 34,
+      "title": "[46263/우리금융캐피탈] 신입사원 성장 설계 워크숍 강사 제안 요청의 건",
+      "client": "우리금융캐피탈",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-04-29",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2468)",
+      "nextPlan": "",
+      "notes": "LZIJ-2468."
+    },
+    {
+      "id": 35,
+      "title": "[새마을금고중앙회] 신입직원 교육과정 제안요청",
+      "client": "새마을금고중앙회",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-08",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2401)",
+      "nextPlan": "",
+      "notes": "LZIJ-2401."
+    },
+    {
+      "id": 36,
+      "title": "[54865/바카디코리아] 다국적 기업 환경에서 요구되는 비판적인 사고(Critical Thinking)와 자기 성찰(Self-refelction) 역량 강화 교육 요청의 건_전 직원 대상",
+      "client": "바카디코리아",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-20",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2018)",
+      "nextPlan": "",
+      "notes": "LZIJ-2018."
+    },
+    {
+      "id": 37,
+      "title": "[14641/컬럼비아스포츠웨어] 팀장 워크샵 제안 요청",
+      "client": "컬럼비아스포츠웨어",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-04-03",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2180)",
+      "nextPlan": "",
+      "notes": "LZIJ-2180."
+    },
+    {
+      "id": 38,
+      "title": "[데상트코리아 / 6257] 팀장대상 면담,코칭스킬 (AI롤플레잉 포함)",
+      "client": "6257",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-24",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2051)",
+      "nextPlan": "",
+      "notes": "LZIJ-2051."
+    },
+    {
+      "id": 39,
+      "title": "[인터코스코리아/57660] 팀장 대상 리더십 교육 제안 요청 ",
+      "client": "57660",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-03",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1814)",
+      "nextPlan": "",
+      "notes": "LZIJ-1814. 안녕하세요, FS1팀 박희란입니다. 해당 기업은 외국계 화장품 ODM·OEM 기업으로 이탈리아 본사로부터 정기적인 리더십 교육 진행을 지시 받아 진행 예정인 상황입니다.  3~7월까지 매월 1회 리더십 교육 진행 예정이며 교육의 일관성을 위해 동일한 강사분께서 정기 교육을 진행하시길 원한다고 합니다. 남미현 강사님과 추가 강사님 1명 프로필 및 커리큘럼 제"
+    },
+    {
+      "id": 40,
+      "title": "[해성그룹] 신임 직책장 교육 강사 일정 문의",
+      "client": "해성그룹",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-02-24",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1774)",
+      "nextPlan": "",
+      "notes": "LZIJ-1774."
+    },
+    {
+      "id": 41,
+      "title": "LG전자/342] 주재원 AI롤플레잉 상하커뮤니케이션 모듈 개발 요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-31",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-2033)",
+      "nextPlan": "",
+      "notes": "LZIJ-2033."
+    },
+    {
+      "id": 42,
+      "title": "[코스콤] 2026년 코스콤 사내 집합교육 및 디지털 교육 플랫폼 위탁운영 제안 요청 건 ",
+      "client": "코스콤",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-09",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1845)",
+      "nextPlan": "",
+      "notes": "LZIJ-1845."
+    },
+    {
+      "id": 43,
+      "title": "[오리온/3640] 승격자 교육 통합 제안 요청 건",
+      "client": "3640",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-02-26",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1762)",
+      "nextPlan": "",
+      "notes": "LZIJ-1762. 안녕하세요. 기업교육 1팀 황동현 책임입니다. 오리온 승격자 교육 건으로 제안 요청 드립니다. 자세한 사항은 첨부한 RFP 확인 부탁드립니다. 강사료 : 기본 강사 : 최대 50만원, 교수급 강사 100만원 이하 제안 요청 내용 보시고 추가로 확인 필요한 사항은 말씀 주시길 바랍니다.     제안서는 2월 27일 오전까지는 꼭 전달 해야하오니 참고해 주세요"
+    },
+    {
+      "id": 44,
+      "title": "((주)에스와이에스리테일/3871) MD 대상 3가지 교육 제안서 요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-13",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1937)",
+      "nextPlan": "",
+      "notes": "LZIJ-1937."
+    },
+    {
+      "id": 45,
+      "title": "[10722/에쓰푸드] 팀장 리더십 및 승진자 오프라인 교육 제안 요청의 건 ",
+      "client": "에쓰푸드",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-12",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1909)",
+      "nextPlan": "",
+      "notes": "LZIJ-1909."
+    },
+    {
+      "id": 46,
+      "title": "[아이에스시/18744] 커리큘럼 및 강사제안 요청",
+      "client": "18744",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-02-25",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1773)",
+      "nextPlan": "",
+      "notes": "LZIJ-1773."
+    },
+    {
+      "id": 47,
+      "title": "[쿠팡풀필먼트서비스] 신규 직책 보임자 및 매니저 리더십 교육",
+      "client": "쿠팡풀필먼트서비스",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-03-09",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1866)",
+      "nextPlan": "",
+      "notes": "LZIJ-1866. 개요 사업명:  2026 CFS 리더십 교육 프로그램 주요 대상:  신규 및 기존 Site Leader, Region Manager, Operation/Support Manager, Area Manager 교육 일정:  2026년 4월 ~ 6월 (과정별 상이)   주요 제안 내용 (4개 과정) 과정명 교육 대상 주요 내용 Get Ready 신규 SL & R"
+    },
+    {
+      "id": 48,
+      "title": " [한솔홀딩스/19227] 26년 한솔홀딩스 팀장/신임팀장 교육 제안 요청",
+      "client": "19227",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-02-20",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1693)",
+      "nextPlan": "",
+      "notes": "LZIJ-1693."
+    },
+    {
+      "id": 49,
+      "title": "[삼우] 승진자 및 팀장교육 제안요청",
+      "client": "삼우",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-01-19",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1425)",
+      "nextPlan": "",
+      "notes": "LZIJ-1425. [팀장교육] 교육대상: 팀장 20명 (전원 남성, 평균나이 46.5세) 교육일시: 2분기 (4~6월)  교육장소: 과천 본사  교육주제: 조직관리 또는 변화관리 팀장 리더십 다면진단 결과   변화대응, 비전제시 및 전략추진 , 혁신추구, 권한위임 역량이 타사에 비해 낮음  예상되는 문제에 대한 선제적 대응, 관련시장/경쟁사/산업트렌드 인식 및 구성원 공유"
+    },
+    {
+      "id": 50,
+      "title": "[녹십자홀딩스/11047] 리더 변화관리 프로그램 제안요청",
+      "client": "11047",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-02-04",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1575)",
+      "nextPlan": "",
+      "notes": "LZIJ-1575."
+    },
+    {
+      "id": 51,
+      "title": "다스 - 팀장리더십 교육(2차시)",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-01-19",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1478)",
+      "nextPlan": "",
+      "notes": "LZIJ-1478."
+    },
+    {
+      "id": 52,
+      "title": "[녹십자홀딩스/11047] 26년 연간 '일하는 마인드셋 변화 교육' 제안 요청",
+      "client": "11047",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-01-09",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1384)",
+      "nextPlan": "",
+      "notes": "LZIJ-1384."
+    },
+    {
+      "id": 53,
+      "title": "신한라이프 신임팀장 과정",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-01-13",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1448)",
+      "nextPlan": "",
+      "notes": "LZIJ-1448."
+    },
+    {
+      "id": 54,
+      "title": "[대우에스티/14975] AI 롤플레잉 리더십 교육 강사 일정 확인 요청",
+      "client": "14975",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-01-08",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1388)",
+      "nextPlan": "",
+      "notes": "LZIJ-1388."
+    },
+    {
+      "id": 55,
+      "title": "한국타이어 팀장대상 ai롤플레잉 셋팅 요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1431)",
+      "nextPlan": "",
+      "notes": "LZIJ-1431. 안녕하세요. 기업교육1팀 조미희 입니다. 한국타이어 팀장대상 ai롤플레잉교육 진행을 위해 셋팅 요청드립니다. [셋팅 요청] 1.샘플 직급변경 (사원 → P1, 대리→ P2, 과장,차장→P3) 2.한국타이어 롤플레잉 전달링크 확인 → 강사님 교안 참고 (첨부파일확인 )   [교육] 일정 : 2026년 1월 14일(수) 시간: 14:30~16:30 (2시간)"
+    },
+    {
+      "id": 56,
+      "title": "[63286/롯데백화점] 26년 신임 팀장 대상 리더십 교육 제안 요청의 건",
+      "client": "롯데백화점",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-28",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1128)",
+      "nextPlan": "",
+      "notes": "LZIJ-1128."
+    },
+    {
+      "id": 57,
+      "title": "[솔브레인홀딩스/1555] 직책자 리더십 교육 제안 요청",
+      "client": "1555",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-12-11",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1115)",
+      "nextPlan": "",
+      "notes": "LZIJ-1115."
+    },
+    {
+      "id": 58,
+      "title": "[17004/바커케미칼코리아] 2026 중간관리자 코칭 리더십 교육 제안 요청",
+      "client": "바커케미칼코리아",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-11",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-980)",
+      "nextPlan": "",
+      "notes": "LZIJ-980. 안녕하세요 기업교육4팀 전한솔입니다. 항상 큰 도움주셔서 감사드립니다.   바커케미칼코리아 기업 팀장급 대상 코칭 리더십 특강 제안 요청드립니다. 고객사는 팀장급과 구성원 간의 소통 이슈로 어려움을 겪고 계십니다. 커뮤니케이션 스킬 및 코칭, 육성 역량 강화 교육을 제안을 부탁드리며, 고객사에서 다양한 강사 및 커리큘럼 제안을 요청하여, 가능하시다면 2~3"
+    },
+    {
+      "id": 59,
+      "title": "[4127/퍼시스그룹] ",
+      "client": "퍼시스그룹",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-12-31",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1337)",
+      "nextPlan": "",
+      "notes": "LZIJ-1337."
+    },
+    {
+      "id": 60,
+      "title": "[한화파워시스템/39970] 팀장 대상 평가 피드백 교육 ",
+      "client": "39970",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-12-30",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1314)",
+      "nextPlan": "",
+      "notes": "LZIJ-1314. 팀장들을 대상으로 평가 피드백 역량 강화를 위한 교육을 기획하고 있습니다. 최근 신임 팀장 비중이 높은 상황으로, 피드백의 개념과 중요성(성과 관리 및 구성원 커리어 개발 관점)에 대한 이해와 실무 적용 중심의 교육 니즈가 있어 본 과정을 검토하고자 합니다. 아래는 요청 드리는 교육 방향 및 개요입니다.   ■ 교육 목적 -팀장으로서 피드백의 의미와 역할에"
+    },
+    {
+      "id": 61,
+      "title": "코리아이앤피(65933)_학원원장님 대상 리더십& 경영 역량 강화 프로그램",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-26",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1102)",
+      "nextPlan": "",
+      "notes": "LZIJ-1102."
+    },
+    {
+      "id": 62,
+      "title": "[에프에이모스트/45822] 오프라인 교육 제안요청의 건",
+      "client": "45822",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-19",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1042)",
+      "nextPlan": "",
+      "notes": "LZIJ-1042. 안녕하세요, 기업교육팀 최재희 입니다  26년 교육진행을 위해 오프라인 제안요청 드리오니 아래내용 확인하여 주시기 바랍니다  기업특성 :  전문인력 아웃소싱, 헤드헌팅, 교육컨설팅 등 사업소개 및 인재채용 서비스 제공.                       무신사, 모던하우스등 파견직 2000여명이며, 사무직은 50-60명 내외임 교육대상자 : 사무직군"
+    },
+    {
+      "id": 63,
+      "title": "[GC녹십자] R&D 컨사이즈 커뮤니케이션 워크샵 제안 요청",
+      "client": "GC녹십자",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-18",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1031)",
+      "nextPlan": "",
+      "notes": "LZIJ-1031."
+    },
+    {
+      "id": 64,
+      "title": "(다스코/5703) 3개 직급별 역량교육 \t",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-11-20",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-1087)",
+      "nextPlan": "",
+      "notes": "LZIJ-1087."
+    },
+    {
+      "id": 65,
+      "title": "[농심/1892] 농심그룹 신임 팀장/지점장 교육",
+      "client": "1892",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-10-28",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-790)",
+      "nextPlan": "",
+      "notes": "LZIJ-790."
+    },
+    {
+      "id": 66,
+      "title": "[농심/1892] 생산 리더십 교육 제안 요청",
+      "client": "1892",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-10-30",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-702)",
+      "nextPlan": "",
+      "notes": "LZIJ-702."
+    },
+    {
+      "id": 67,
+      "title": "[31864/아이씨케이]팀장리더쉽(분기별 4회차)",
+      "client": "아이씨케이",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-10-24",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-822)",
+      "nextPlan": "",
+      "notes": "LZIJ-822."
+    },
+    {
+      "id": 68,
+      "title": "[한국마사회/4345] AI롤플레잉 - 대리급 승진자 교육 제안 요청",
+      "client": "4345",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-10-22",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-787)",
+      "nextPlan": "",
+      "notes": "LZIJ-787."
+    },
+    {
+      "id": 69,
+      "title": "[24363/지아이티] 팀장 교육(성과관리, 비즈니스이해)",
+      "client": "지아이티",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-10-14",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-715)",
+      "nextPlan": "",
+      "notes": "LZIJ-715."
+    },
+    {
+      "id": 70,
+      "title": "[녹십자홀딩스]하반기 팀장 리더십 아카데미 제안",
+      "client": "녹십자홀딩스",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-08-20",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-286)",
+      "nextPlan": "",
+      "notes": "LZIJ-286."
+    },
+    {
+      "id": 71,
+      "title": "하이트진로 현장관리자 교육 요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-09-25",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-584)",
+      "nextPlan": "",
+      "notes": "LZIJ-584."
+    },
+    {
+      "id": 72,
+      "title": "[관세인재개발원 /42659] 부장급(고위직)  \"관세행정 AI  전략\" 과정 제안",
+      "client": "42659",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-09-12",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-491)",
+      "nextPlan": "",
+      "notes": "LZIJ-491."
+    },
+    {
+      "id": 73,
+      "title": "[부국증권/1451] 팀장 대상 리더십 및 AI 교육 제안서 요청",
+      "client": "1451",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-09-16",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-526)",
+      "nextPlan": "",
+      "notes": "LZIJ-526."
+    },
+    {
+      "id": 74,
+      "title": "[포스코인터내셔널] 저성과자 역량항상 교육",
+      "client": "포스코인터내셔널",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-09-09",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-463)",
+      "nextPlan": "",
+      "notes": "LZIJ-463."
+    },
+    {
+      "id": 75,
+      "title": "[솔브레인홀딩스/1555] 여성리더십 교육 및 코칭 제안 요청",
+      "client": "1555",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-08-13",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-234)",
+      "nextPlan": "",
+      "notes": "LZIJ-234."
+    },
+    {
+      "id": 76,
+      "title": "[61682/매일유업] 팀장 skill-up 과정 제안 요청",
+      "client": "매일유업",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-08-04",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-170)",
+      "nextPlan": "",
+      "notes": "LZIJ-170."
+    },
+    {
+      "id": 77,
+      "title": "[5932/드림텍] 보직장 면접관 & 면담 Skill up 교육 강사 일정 확인 요청",
+      "client": "드림텍",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-07-23",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-124)",
+      "nextPlan": "",
+      "notes": "LZIJ-124."
+    },
+    {
+      "id": 78,
+      "title": "[휴온스/23770]신임 팀장/부팀장 교육 일정 확인 요청",
+      "client": "23770",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2025-07-16",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-04-27: Jira 자동 동기화 (LZIJ-109)",
+      "nextPlan": "",
+      "notes": "LZIJ-109."
     }
   ],
   "weeklyMemos": []

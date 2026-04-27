@@ -45,13 +45,18 @@ async function fetchAssignedIssues() {
   return res.data.issues || [];
 }
 
-// summary에서 client 추출: "[46263/우리금융캐피탈] 제목..." → "우리금융캐피탈"
+// summary에서 client 추출: "[46263/우리금융캐피탈]" → "우리금융캐피탈", "[한국항공우주산업/1429]" → "한국항공우주산업"
 function extractClient(summary) {
   const match = summary.match(/\[([^\]]+)\]/);
   if (!match) return '';
   const inner = match[1];
   const parts = inner.split('/');
-  return parts.length >= 2 ? parts[parts.length - 1].trim() : inner.trim();
+  if (parts.length >= 2) {
+    const last = parts[parts.length - 1].trim();
+    // 마지막 부분이 순수 숫자면 첫 번째 부분이 클라이언트명
+    return /^\d+$/.test(last) ? parts[0].trim() : last;
+  }
+  return inner.trim();
 }
 
 // Jira status → 대시보드 status 매핑
