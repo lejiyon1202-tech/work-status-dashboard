@@ -84,7 +84,7 @@
       "priority": null,
       "deadline": "",
       "owner": null,
-      "weeklyUpdate": true,
+      "weeklyUpdate": false,
       "progress": "5/21, 28 참관 요청 2차 거부, 3차 요청 → 21일 참관",
       "nextPlan": "",
       "notes": "",
