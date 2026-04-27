@@ -503,7 +503,6 @@
       "notes": ""
     },
     {
-      "id": 28,
       "title": "KIST 롤플레잉 개발",
       "client": "KIST",
       "category": "R&D",
@@ -514,11 +513,13 @@
       "status": "진행중",
       "priority": null,
       "deadline": "2026-04-29",
-      "weeklyUpdate": true,
       "owner": null,
+      "weeklyUpdate": false,
       "progress": "29일 롤플레잉 개발 완료 예정",
       "nextPlan": "",
-      "notes": ""
+      "notes": "",
+      "weeklyUpdates": [],
+      "id": 28
     },
     {
       "id": 29,
