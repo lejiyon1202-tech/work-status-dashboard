@@ -523,7 +523,6 @@
       "id": 28
     },
     {
-      "id": 29,
       "title": "리더의 하루 플랫폼",
       "client": "자체",
       "category": "R&D",
@@ -534,11 +533,13 @@
       "status": "진행중",
       "priority": null,
       "deadline": "",
-      "weeklyUpdate": true,
       "owner": null,
+      "weeklyUpdate": false,
       "progress": "AI CANVAS 기반 재구축 방향 확정\n기획안 v1 완료 (100점 통과)",
       "nextPlan": "AI CANVAS 재구축 POC 착수 예정",
-      "notes": ""
+      "notes": "",
+      "weeklyUpdates": [],
+      "id": 29
     },
     {
       "id": 30,
