@@ -185,22 +185,22 @@ async function sync() {
 function gitCommitAndPush(added, updated) {
   const repoDir = path.resolve(__dirname, '..');
   try {
-    execSync('git add data.json', { cwd: repoDir, stdio: 'pipe' });
-    const status = execSync('git status --porcelain data.json', { cwd: repoDir, stdio: 'pipe' }).toString().trim();
+    execSync('git add data.json', { cwd: repoDir, stdio: 'pipe', windowsHide: true });
+    const status = execSync('git status --porcelain data.json', { cwd: repoDir, stdio: 'pipe', windowsHide: true }).toString().trim();
     if (!status) {
       console.log('[GIT] data.json 변경 없음·push 생략');
       return;
     }
     const today = todayKST();
     const msg = `Jira sync 자동: 신규 ${added}·업데이트 ${updated} (${today} KST)`;
-    execSync(`git commit -m "${msg}"`, { cwd: repoDir, stdio: 'pipe' });
+    execSync(`git commit -m "${msg}"`, { cwd: repoDir, stdio: 'pipe', windowsHide: true });
     // 원격 변경사항 먼저 pull (rebase로 충돌 최소화)
     try {
-      execSync('git pull --rebase --autostash', { cwd: repoDir, stdio: 'pipe' });
+      execSync('git pull --rebase --autostash', { cwd: repoDir, stdio: 'pipe', windowsHide: true });
     } catch (pullErr) {
       console.error(`[GIT PULL ERROR] ${pullErr.message.slice(0, 200)}`);
     }
-    execSync('git push', { cwd: repoDir, stdio: 'pipe' });
+    execSync('git push', { cwd: repoDir, stdio: 'pipe', windowsHide: true });
     console.log(`[GIT] push 완료 — ${msg}`);
   } catch (err) {
     console.error(`[GIT ERROR] ${err.message}`);
