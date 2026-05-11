@@ -1459,6 +1459,23 @@
       "progress": "2026-05-11: Jira 자동 동기화 (LZIJ-2666)",
       "nextPlan": "",
       "notes": "LZIJ-2666."
+    },
+    {
+      "id": 84,
+      "title": "[불가리코리아/7994] 프로젝트 매니지먼트 교육 제안 요청_마케팅직 대상",
+      "client": "불가리코리아",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-06",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-11: Jira 자동 동기화 (LZIJ-2464)",
+      "nextPlan": "",
+      "notes": "LZIJ-2464."
     }
   ],
   "weeklyMemos": []
