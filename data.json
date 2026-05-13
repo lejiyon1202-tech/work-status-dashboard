@@ -1476,6 +1476,23 @@
       "progress": "2026-05-11: Jira 자동 동기화 (LZIJ-2464)",
       "nextPlan": "",
       "notes": "LZIJ-2464."
+    },
+    {
+      "id": 85,
+      "title": "에스케이티엔에스(44105) 리더 대상 리더십 교육 제안요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-18",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-13: Jira 자동 동기화 (LZIJ-2704)",
+      "nextPlan": "",
+      "notes": "LZIJ-2704."
     }
   ],
   "weeklyMemos": []
