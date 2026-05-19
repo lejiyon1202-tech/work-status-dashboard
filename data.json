@@ -1493,6 +1493,40 @@
       "progress": "2026-05-13: Jira 자동 동기화 (LZIJ-2704)",
       "nextPlan": "",
       "notes": "LZIJ-2704."
+    },
+    {
+      "id": 86,
+      "title": "[케이지트레이딩/7571] 팀장 대상 커뮤니케이션 및 피드백 교육 제안 요청 건",
+      "client": "케이지트레이딩",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-22",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-19: Jira 자동 동기화 (LZIJ-2766)",
+      "nextPlan": "",
+      "notes": "LZIJ-2766. 안녕하세요, FS1팀 문수민 입니다. 케이지트레이딩에 대하여, 커뮤니케이션·피드백 주제 맞춤형 팀장 리더십 교육(AI 롤플레잉 포함, 8시간, 강사 2~3인 후보 포함) 제안 요청드립니다. *일전 구자봉강사님과 OKR 교육 진행하였던 곳입니다. 미팅 시 청취한 내용 하기 전달드립니다. 팀장 대상 집체 교육 (오프라인) 연 1회, 하루(8시간) 과정으로 운영"
+    },
+    {
+      "id": 87,
+      "title": "[아이에스동서/14610] 직급별 리더십 교육 제안 요청",
+      "client": "아이에스동서",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-22",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-19: Jira 자동 동기화 (LZIJ-2762)",
+      "nextPlan": "",
+      "notes": "LZIJ-2762."
     }
   ],
   "weeklyMemos": []
