@@ -1527,6 +1527,40 @@
       "progress": "2026-05-19: Jira 자동 동기화 (LZIJ-2762)",
       "nextPlan": "",
       "notes": "LZIJ-2762."
+    },
+    {
+      "id": 88,
+      "title": "[스타벅스] 점장(3년차) 교육 내, 리더십 모듈 교육 진행 요청 건",
+      "client": "스타벅스",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-27",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-22: Jira 자동 동기화 (LZIJ-2795)",
+      "nextPlan": "",
+      "notes": "LZIJ-2795."
+    },
+    {
+      "id": 89,
+      "title": "무인양품 24621 _ AI롤플레잉 테스트계정 요청",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-05-26",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-05-22: Jira 자동 동기화 (LZIJ-2804)",
+      "nextPlan": "",
+      "notes": "LZIJ-2804."
     }
   ],
   "weeklyMemos": []
