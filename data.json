@@ -1578,6 +1578,23 @@
       "progress": "2026-05-28: Jira 자동 동기화 (LZIJ-2862)",
       "nextPlan": "",
       "notes": "LZIJ-2862."
+    },
+    {
+      "id": 91,
+      "title": "[인사혁신처(인재개발과)/16049] AI롤플레잉 ",
+      "client": "인사혁신처(인재개발과)",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-06-19",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-06-01: Jira 자동 동기화 (LZIJ-2901)",
+      "nextPlan": "",
+      "notes": "LZIJ-2901."
     }
   ],
   "weeklyMemos": []
