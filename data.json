@@ -1595,6 +1595,23 @@
       "progress": "2026-06-01: Jira 자동 동기화 (LZIJ-2901)",
       "nextPlan": "",
       "notes": "LZIJ-2901."
+    },
+    {
+      "id": 92,
+      "title": "[한국항공우주산업/1429] 하반기 신입사원 입문교육 제안 요청",
+      "client": "한국항공우주산업",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-06-10",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-06-08: Jira 자동 동기화 (LZIJ-2964)",
+      "nextPlan": "",
+      "notes": "LZIJ-2964."
     }
   ],
   "weeklyMemos": []
