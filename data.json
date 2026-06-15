@@ -1612,6 +1612,23 @@
       "progress": "2026-06-08: Jira 자동 동기화 (LZIJ-2964)",
       "nextPlan": "",
       "notes": "LZIJ-2964."
+    },
+    {
+      "id": 93,
+      "title": "[기아/3689] 경력직 온보딩 워크숍 (2박 3일)",
+      "client": "기아",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-06-25",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-06-15: Jira 자동 동기화 (LZIJ-3061)",
+      "nextPlan": "",
+      "notes": "LZIJ-3061."
     }
   ],
   "weeklyMemos": []
