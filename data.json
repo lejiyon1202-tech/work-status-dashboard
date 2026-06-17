@@ -1629,6 +1629,23 @@
       "progress": "2026-06-15: Jira 자동 동기화 (LZIJ-3061)",
       "nextPlan": "",
       "notes": "LZIJ-3061."
+    },
+    {
+      "id": 94,
+      "title": "[한국공항공사] KAC 고급 과정 제안 요청(AI DC 포함)",
+      "client": "한국공항공사",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-06-23",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-06-18: Jira 자동 동기화 (LZIJ-3147)",
+      "nextPlan": "",
+      "notes": "LZIJ-3147."
     }
   ],
   "weeklyMemos": []
