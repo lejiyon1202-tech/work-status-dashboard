@@ -1646,6 +1646,23 @@
       "progress": "2026-06-18: Jira 자동 동기화 (LZIJ-3147)",
       "nextPlan": "",
       "notes": "LZIJ-3147."
+    },
+    {
+      "id": 95,
+      "title": "[코웨이/64760] 신임 직책자 레벨업 과정 제안 요청",
+      "client": "코웨이",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-07-20",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-07-16: Jira 자동 동기화 (LZIJ-3497)",
+      "nextPlan": "",
+      "notes": "LZIJ-3497."
     }
   ],
   "weeklyMemos": []
