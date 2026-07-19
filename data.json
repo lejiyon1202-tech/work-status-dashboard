@@ -1663,6 +1663,23 @@
       "progress": "2026-07-16: Jira 자동 동기화 (LZIJ-3497)",
       "nextPlan": "",
       "notes": "LZIJ-3497."
+    },
+    {
+      "id": 96,
+      "title": "[현대그룹] 임원교육(1day) 제안요청드립니다.",
+      "client": "현대그룹",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-07-21",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-07-20: Jira 자동 동기화 (LZIJ-3511)",
+      "nextPlan": "",
+      "notes": "LZIJ-3511."
     }
   ],
   "weeklyMemos": []
