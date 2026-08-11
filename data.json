@@ -1680,6 +1680,23 @@
       "progress": "2026-07-20: Jira 자동 동기화 (LZIJ-3511)",
       "nextPlan": "",
       "notes": "LZIJ-3511."
+    },
+    {
+      "id": 97,
+      "title": "(30623)반다이남코코리아_평가자 성과관리 교육(부장,차장,과장)",
+      "client": "",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-08-14",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-08-11: Jira 자동 동기화 (LZIJ-3746)",
+      "nextPlan": "",
+      "notes": "LZIJ-3746."
     }
   ],
   "weeklyMemos": []
