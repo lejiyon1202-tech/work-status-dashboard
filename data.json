@@ -1714,6 +1714,23 @@
       "progress": "2026-08-20: Jira 자동 동기화 (LZIJ-3898)",
       "nextPlan": "",
       "notes": "LZIJ-3898."
+    },
+    {
+      "id": 99,
+      "title": "[캐논코리아] 매니저급 대상 원온원 코칭 과정",
+      "client": "캐논코리아",
+      "category": "제안",
+      "tags": [
+        "제안서"
+      ],
+      "status": "진행중",
+      "priority": 1,
+      "deadline": "2026-09-02",
+      "weeklyUpdate": false,
+      "owner": null,
+      "progress": "2026-09-02: Jira 자동 동기화 (LZIJ-4083)",
+      "nextPlan": "",
+      "notes": "LZIJ-4083."
     }
   ],
   "weeklyMemos": []
